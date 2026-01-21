@@ -126,10 +126,10 @@ window.checkoutViaWhatsApp = async () => {
     // Step B: Formulate WhatsApp Message
     let waText = `*NEW ORDER - POWDER ROOT*%0A`;
     waText += `--------------------------%0A`;
-    cart.forEach(i => waText += `• ${i.name} ($${i.price})%0A`);
+    cart.forEach(i => waText += `• ₹{i.name} ($₹{i.price})`);
     waText += `--------------------------%0A`;
-    waText += `*TOTAL: $${total}*%0A%0A`;
-    waText += `*SHIPPING TO:*%0A${fullAddress}`;
+    waText += `*TOTAL: $₹{total}`;
+    waText += `*SHIPPING TO:{fullAddress}`;
 
     // Step C: Open WhatsApp
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(waText)}`, '_blank');
@@ -155,5 +155,6 @@ const observer = new IntersectionObserver((entries) => {
         if(entry.isIntersecting) entry.target.classList.add('active');
     });
 }, { threshold: 0.1 });
+
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
