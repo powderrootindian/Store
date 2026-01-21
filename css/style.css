@@ -97,4 +97,35 @@ footer {
 .input-row {
     display: flex;
     gap: 10px;
+
+}
+/* Logout Link Styling */
+#logout-link {
+    font-size: 0.6rem;
+    color: #888;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-left: 10px;
+}
+#logout-link:hover { color: var(--gold-solid); }
+
+/* MOBILE OPTIMIZATION */
+@media (max-width: 768px) {
+    nav { padding: 15px 5%; }
+    .logo { font-size: 1.2rem; letter-spacing: 3px; }
+    
+    .hero h1 { font-size: 2.5rem; }
+    .hero h5 { font-size: 0.7rem; }
+    
+    .shop-section { padding: 50px 5%; }
+    .section-title { font-size: 2rem; }
+    
+    .cart-drawer { width: 100%; right: -100%; } /* Full screen cart on mobile */
+    
+    .product-grid {
+        grid-template-columns: 1fr; /* One product per row on small screens */
+        gap: 20px;
+    }
+    
+    .product-card img { height: 250px; }
 }
