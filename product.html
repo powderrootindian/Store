@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Product – Powder Root</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+.product{
+  max-width:1000px;
+  margin:80px auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:50px;
+  padding:20px;
+}
+.product img{
+  width:100%;
+  border-radius:20px;
+}
+.product h2{
+  color:#c9a24d;
+  margin-bottom:10px;
+}
+.product button{
+  margin-top:25px;
+}
+@media(max-width:768px){
+  .product{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <img src="images/logo.png">
+    <strong>Powder Root</strong>
+  </div>
+  <nav>
+    <a href="cart.html">Cart</a>
+  </nav>
+</header>
+
+<section class="product">
+  <img id="img">
+  <div>
+    <h2 id="name"></h2>
+    <p id="desc"></p>
+    <h3 class="price" id="price"></h3>
+    <button class="btn" onclick="addToCart()">Add to Cart</button>
+  </div>
+</section>
+
+<script>
+const products = {
+  onion:{
+    name:"Onion Powder",
+    price:349,
+    img:"images/onion.jpg",
+    desc:"Pure dehydrated onion powder with strong aroma and natural flavor."
+  },
+  garlic:{
+    name:"Garlic Powder",
+    price:299,
+    img:"images/garlic.jpg",
+    desc:"Premium garlic powder made from fresh Indian garlic cloves."
+  },
+  ginger:{
+    name:"Ginger Powder",
+    price:299,
+    img:"images/ginger.jpg",
+    desc:"Natural ginger powder with authentic spice and health benefits."
+  }
+};
+
+const id = new URLSearchParams(window.location.search).get("id");
+const p = products[id];
+
+document.getElementById("img").src = p.img;
+document.getElementById("name").innerText = p.name;
+document.getElementById("desc").innerText = p.desc;
+document.getElementById("price").innerText = "₹" + p.price;
+
+function addToCart(){
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  cart.push(p);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  window.location.href = "cart.html";
+}
+</script>
+
+</body>
+</html>
