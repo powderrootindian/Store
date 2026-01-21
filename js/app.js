@@ -15,7 +15,7 @@ const firebaseConfig = {
 const EMAILJS_PUB_KEY = "lxY_3luPFEJNp2_dO";
 const EMAILJS_SERVICE = "service_cs926jb";
 const EMAILJS_TEMPLATE = "template_ojt95o7";
-const PHONE_NUMBER = "919876543210"; // Your number (Format: 91...)
+const PHONE_NUMBER = "919096999662"; // Your number (Format: 91...)
 
 // 3. INITIALIZE
 const app = initializeApp(firebaseConfig);
@@ -161,3 +161,4 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
