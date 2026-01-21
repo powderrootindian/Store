@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POWDER ROOT | Artisanal Essence</title>
+    <title>POWDER ROOT | Essence of Nature</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -19,39 +19,77 @@
 
     <nav>
         <div class="logo">POWDER<span>ROOT</span></div>
-<div class="nav-right">
-    <div id="auth-section">
-        <button id="login-btn" class="btn-gold-outline">LOGIN</button>
-        <div id="user-profile" class="hidden">
-            <img id="user-img" src="" alt="Profile">
-            <span id="logout-link" onclick="handleLogout()" style="font-size: 0.7rem; color: #888; cursor: pointer; text-decoration: underline; margin-left: 10px;">Logout</span>
+        <div class="nav-right">
+            <div id="auth-section">
+                <button id="login-btn" class="btn-gold-outline">LOGIN</button>
+                <div id="user-profile" class="hidden">
+                    <img id="user-img" src="" alt="Profile">
+                    <span id="logout-link" onclick="handleLogout()">Logout</span>
+                </div>
+            </div>
+            <div class="cart-trigger" onclick="toggleCart()">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span id="cart-count">0</span>
+            </div>
         </div>
-    </div>
-    <div class="cart-trigger" onclick="toggleCart()">
-        <i class="fa-solid fa-bag-shopping"></i>
-        <span id="cart-count">0</span>
-    </div>
-</div>
+    </nav>
 
-<footer>
-    <div class="footer-content">
-        <div class="footer-logo" style="color:#D4AF37; font-family:'Cinzel'; letter-spacing:5px; font-size: 1.5rem;">POWDER ROOT</div>
-        <p style="font-size:0.8rem; margin:15px 0; color:#888; letter-spacing: 1px;">The Essence of Purity. Shipped Worldwide.</p>
-        
-        <div style="margin: 20px 0; color: #D4AF37; font-size: 1.5rem;">
-            <a href="https://www.instagram.com/powderoots?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" style="color: inherit; text-decoration: none;">
-                <i class="fa-brands fa-instagram" style="margin: 0 10px; cursor: pointer;"></i>
-            </a>
-            <i class="fa-brands fa-facebook" style="margin: 0 10px; cursor: pointer;"></i>
+    <section class="hero">
+        <div class="hero-content">
+            <h5>THE ART OF THE ROOT</h5>
+            <h1>PURE. ORGANIC. <br> REFINED.</h1>
+            <button class="btn-gold" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">SHOP COLLECTION</button>
+        </div>
+    </section>
+
+    <section id="shop" class="shop-section">
+        <h2 class="section-title">Our Essentials</h2>
+        <div class="product-grid" id="product-container"></div>
+    </section>
+
+    <div id="cart-drawer" class="cart-drawer">
+        <div class="cart-header">
+            <h3>YOUR BAG</h3>
+            <i class="fa-solid fa-xmark" onclick="toggleCart()" style="cursor:pointer"></i>
         </div>
         
-        <p style="font-size:0.6rem; color:#444; margin-top: 30px;">&copy; 2026 POWDER ROOT. All Rights Reserved.</p>
+        <div id="cart-items-list"></div>
+
+        <div class="address-section">
+            <h4>SHIPPING DETAILS</h4>
+            <input type="text" id="cust-address" placeholder="Street Address" class="gold-input">
+            <div class="input-row">
+                <input type="text" id="cust-city" placeholder="City" class="gold-input">
+                <input type="text" id="cust-zip" placeholder="ZIP" class="gold-input">
+            </div>
+        </div>
+
+        <div class="cart-footer">
+            <div class="total-row">
+                <span>TOTAL</span>
+                <span id="cart-total">₹0.00</span>
+            </div>
+            <button class="whatsapp-btn" onclick="checkoutViaWhatsApp()">
+                ORDER ON WHATSAPP <i class="fa-brands fa-whatsapp"></i>
+            </button>
+        </div>
     </div>
-</footer>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">POWDER <span>ROOT</span></div>
+            <p>The Essence of Purity. Shipped Worldwide.</p>
+            <div class="socials">
+                <a href="https://www.instagram.com/powderoots?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <i class="fa-brands fa-facebook"></i>
+            </div>
+            <p class="copy">&copy; 2026 POWDER ROOT.</p>
+        </div>
+    </footer>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="module" src="js/app.js"></script>
 </body>
-
 </html>
-
