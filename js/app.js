@@ -21,13 +21,13 @@ const PHONE_NUMBER = "919096999662"; // Your number (Format: 91...)
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
-emailjs.init(lxY_3luPFEJNp2_dO);
+emailjs.init(EMAILJS_PUB_KEY);
 
 // 4. PRODUCT CATALOG (Currency: ₹)
 const products = [
-    { id: 1, name: "Artisanal Onion", price: 450, img: "assets/images/onion.jpg", desc: "Hand-milled sun-dried shallots." },
-    { id: 2, name: "Roasted Garlic", price: 550, img: "assets/images/garlic.jpg", desc: "Slow-aged for deep umami essence." },
-    { id: 3, name: "Infused Ginger", price: 500, img: "assets/images/ginger.jpg", desc: "Sharply refined organic root." }
+    { id: 1, name: "Onion powder", price: 299, img: "assets/images/onion.jpg", desc: "Hand-milled sun-dried shallots." },
+    { id: 2, name: "Garlic powder", price: 179, img: "assets/images/garlic.jpg", desc: "Slow-aged for deep umami essence." },
+    { id: 3, name: "Ginger powder", price: 179, img: "assets/images/ginger.jpg", desc: "Sharply refined organic root." }
 ];
 
 let cart = [];
@@ -161,5 +161,6 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
 
 
