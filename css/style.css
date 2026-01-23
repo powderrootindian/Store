@@ -375,7 +375,7 @@ footer {
     font-size: 1.4rem;
     letter-spacing: 3px;
     line-height: 1;
-    border-radius:100%;
+    border-radius:50%;
 }
 
 /* Mobile Adjustments */
@@ -388,4 +388,5 @@ footer {
         letter-spacing: 2px;
     }
 }
+
 
