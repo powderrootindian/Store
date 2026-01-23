@@ -101,43 +101,60 @@ function renderCart() {
 
 // 7. THE CLEAN WHATSAPP CHECKOUT
 window.checkoutViaWhatsApp = async () => {
-    if(cart.length === 0) return alert("Your bag is empty.");
+    // 1. MANDATORY LOGIN CHECK
+    const activeUser = auth.currentUser; 
 
+    if (!activeUser) {
+        alert("Authentication Required: Please login with Google to continue with your order.");
+        // Optional: Automatically trigger login popup for the user
+        try {
+            await signInWithPopup(auth, provider);
+            // After successful login, the user can click checkout again
+            return; 
+        } catch (error) {
+            console.error("Login failed:", error);
+            return;
+        }
+    }
+
+    // 2. CHECK IF CART IS EMPTY
+    if (cart.length === 0) {
+        return alert("Your bag is empty. Please add items before checking out.");
+    }
+
+    // 3. CAPTURE ADDRESS DATA
     const addr = document.getElementById('cust-address').value;
     const city = document.getElementById('cust-city').value;
     const zip = document.getElementById('cust-zip').value;
 
-    if(!addr || !city || !zip) return alert("Please fill in your shipping address.");
+    if (!addr || !city || !zip) {
+        return alert("Please provide your shipping details.");
+    }
 
-    const total = cart.reduce((a,b) => a + b.price, 0);
+    const total = cart.reduce((a, b) => a + b.price, 0);
     const fullAddress = `${addr}, ${city} - ${zip}`;
 
-    // Elegant Text Message
-    let waText = `✨ *NEW ORDER: POWDER ROOT* ✨\n`;
-    waText += `──────────────────\n\n`;
-    waText += `🛍️ *ORDER SUMMARY:*\n`;
-    cart.forEach((item, i) => waText += `${i+1}. ${item.name} — ₹${item.price}\n`);
-    waText += `\n💰 *TOTAL PAYABLE:* ₹${total}.00\n`;
-    waText += `──────────────────\n\n`;
-    waText += `📍 *SHIPPING TO:*\n${fullAddress}\n\n`;
+    // 4. TRIGGER EMAILJS
+    const templateParams = {
+        to_name: activeUser.displayName,
+        user_email: activeUser.email, 
+        order_details: cart.map(i => i.name).join(", "),
+        total_price: `₹${total}`,
+        shipping_address: fullAddress
+    };
 
-    if(currentUser) {
-        waText += `👤 *CUSTOMER:*\n${currentUser.displayName}\n(${currentUser.email})\n`;
-    }
-    waText += `──────────────────\n`;
-    waText += `_Thank you for choosing Powder Root_`;
+    emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, templateParams)
+        .then(() => console.log("Confirmation email sent to: " + activeUser.email))
+        .catch((err) => console.error("Email failed:", err));
 
-    // EmailJS (Background Notification)
-    if(currentUser) {
-        const templateParams = {
-            to_name: currentUser.displayName,
-            user_email: currentUser.email,
-            order_details: cart.map(i => i.name).join(", "),
-            total_price: `₹${total}`,
-            shipping_address: fullAddress
-        };
-        emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, templateParams);
-    }
+    // 5. REDIRECT TO WHATSAPP
+    let waText = `✨ *ORDER FROM POWDER ROOT* ✨\n`;
+    waText += `──────────────────\n\n`;
+    waText += `👤 *CUSTOMER:* ${activeUser.displayName}\n`;
+    waText += `🛍️ *ITEMS:* ${cart.map(i => i.name).join(", ")}\n`;
+    waText += `💰 *TOTAL:* ₹${total}.00\n`;
+    waText += `📍 *ADDRESS:* ${fullAddress}\n\n`;
+    waText += `──────────────────`;
 
     window.open(`https://wa.me/${PHONE_NUMBER}?text=${encodeURIComponent(waText)}`, '_blank');
 };
@@ -161,6 +178,7 @@ const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
 
 
 
