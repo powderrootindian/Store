@@ -150,13 +150,6 @@ nav {
     margin-bottom: 10px;
     font-weight: 400;
 }
-#qr-payment-section {
-    background: rgba(212, 175, 55, 0.05);
-    padding: 15px;
-    border-radius: 8px;
-    border: 1px dashed var(--gold-solid);
-}
-
 .hero h1 {
     font-family: 'Cinzel', serif;
     font-size: clamp(2.5rem, 8vw, 5rem);
@@ -406,6 +399,13 @@ footer {
         letter-spacing: 2px;
     }
 }
+#qr-payment-section {
+    background: rgba(212, 175, 55, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px dashed var(--gold-solid);
+}
+
 
 
 
