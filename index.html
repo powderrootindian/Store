@@ -18,10 +18,10 @@
     </div>
 
     <nav>
-<div class="logo-container" style="display: flex; align-items: center; gap: 12px;">
-    <img src="assets/images/logo.png" alt="Powder Root Logo" id="nav-logo">
-    <div class="logo">POWDER<span>ROOT</span></div>
-</div>
+        <div class="logo-container" style="display: flex; align-items: center; gap: 12px;">
+            <img src="assets/images/logo.png" alt="Logo" id="nav-logo">
+            <div class="logo">POWDER<span>ROOT</span></div>
+        </div>
         <div class="nav-right">
             <div id="auth-section">
                 <button id="login-btn" class="btn-gold-outline">LOGIN</button>
@@ -41,7 +41,7 @@
         <div class="hero-content">
             <h5>THE ART OF THE ROOT</h5>
             <h1>PURE. ORGANIC. <br> REFINED.</h1>
-            <button class="btn-gold" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">SHOP COLLECTION</button>
+            <button class="btn-gold" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">SHOP NOW</button>
         </div>
     </section>
 
@@ -58,6 +58,12 @@
         
         <div id="cart-items-list"></div>
 
+        <div id="qr-payment-section" style="display: none; text-align: center; margin: 20px 0; padding: 15px; border: 1px dashed #D4AF37; background: rgba(212, 175, 55, 0.05); border-radius: 8px;">
+            <h4 style="font-family: 'Cinzel'; color: #D4AF37; font-size: 0.8rem; margin-bottom: 10px;">SCAN TO PAY (UPI)</h4>
+            <img src="assets/images/payment-qr.png" alt="UPI QR Code" style="width: 150px; height: 150px; border: 2px solid #fff; background: #fff; padding: 5px;">
+            <p style="font-size: 0.6rem; color: #888; margin-top: 10px;">Scan to pay. Share screenshot on WhatsApp.</p>
+        </div>
+
         <div class="address-section">
             <h4>SHIPPING DETAILS</h4>
             <input type="text" id="cust-address" placeholder="Street Address" class="gold-input">
@@ -66,18 +72,9 @@
                 <input type="text" id="cust-zip" placeholder="ZIP" class="gold-input">
             </div>
         </div>
-<div id="qr-payment-section" style="display: none; text-align: center; margin: 20px 0; padding: 15px; border: 1px dashed #D4AF37; background: rgba(212, 175, 55, 0.05); border-radius: 8px;">
-    <h4 style="font-family: 'Cinzel'; color: #D4AF37; font-size: 0.8rem; margin-bottom: 10px; letter-spacing: 1px;">SCAN TO PAY (UPI)</h4>
-    
-    <img src="assets/images/payment-qr.png" alt="UPI QR Code" style="width: 160px; height: 160px; border: 2px solid #fff; background: #fff; padding: 5px;">
-    
-    <p style="font-size: 0.6rem; color: #888; margin-top: 10px; line-height: 1.4;">
-        Scan with GPay, PhonePe, or Paytm. <br> 
-        <strong>Please share the screenshot on WhatsApp.</strong>
-    </p>
-</div>
+
         <div class="cart-footer">
-            <div class="total-row">
+            <div class="total-row" style="display:flex; justify-content:space-between; margin-bottom: 15px;">
                 <span>TOTAL</span>
                 <span id="cart-total">₹0.00</span>
             </div>
@@ -89,15 +86,12 @@
 
     <footer>
         <div class="footer-content">
-            <div class="footer-logo">POWDER <span>ROOT</span></div>
-            <p>The Essence of Purity. Shipped Worldwide.</p>
             <div class="socials">
                 <a href="https://www.instagram.com/powderoots?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
                     <i class="fa-brands fa-instagram"></i>
                 </a>
-                <i class="fa-brands fa-facebook"></i>
             </div>
-            <p class="copy">&copy; 2026 POWDER ROOT.</p>
+            <p>&copy; 2026 POWDER ROOT.</p>
         </div>
     </footer>
 
@@ -105,8 +99,3 @@
     <script type="module" src="js/app.js"></script>
 </body>
 </html>
-
-
-
-
-
