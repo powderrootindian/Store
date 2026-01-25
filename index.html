@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POWDER ROOT | Essence of Nature</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>POWDER ROOT | Artisanal Indian Boutique</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -18,16 +18,16 @@
     </div>
 
     <nav>
-        <div class="logo-container" style="display: flex; align-items: center; gap: 12px;">
+        <div class="logo-container" onclick="location.reload()">
             <img src="assets/images/logo.png" alt="Logo" id="nav-logo">
             <div class="logo">POWDER<span>ROOT</span></div>
         </div>
         <div class="nav-right">
             <div id="auth-section">
                 <button id="login-btn" class="btn-gold-outline">LOGIN</button>
-                <div id="user-profile" class="hidden">
-                    <img id="user-img" src="" alt="Profile">
-                    <span id="logout-link" onclick="handleLogout()">Logout</span>
+                <div id="user-profile" style="display:none; align-items:center; gap:10px;">
+                    <img id="user-img" src="" alt="User">
+                    <span id="logout-link" onclick="handleLogout()">LOGOUT</span>
                 </div>
             </div>
             <div class="cart-trigger" onclick="toggleCart()">
@@ -39,61 +39,52 @@
 
     <section class="hero">
         <div class="hero-content">
-            <h5>THE ART OF THE ROOT</h5>
+            <h5>ESTD 2026</h5>
             <h1>PURE. ORGANIC. <br> REFINED.</h1>
-            <button class="btn-gold" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">SHOP NOW</button>
+            <button class="btn-gold" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">SHOP THE COLLECTION</button>
         </div>
     </section>
 
     <section id="shop" class="shop-section">
-        <h2 class="section-title">Our Essentials</h2>
+        <h2 class="section-title">The Boutique Collection</h2>
         <div class="product-grid" id="product-container"></div>
     </section>
 
     <div id="cart-drawer" class="cart-drawer">
         <div class="cart-header">
-            <h3>YOUR BAG</h3>
-            <i class="fa-solid fa-xmark" onclick="toggleCart()" style="cursor:pointer"></i>
+            <h3>YOUR SELECTIONS</h3>
+            <i class="fa-solid fa-xmark" onclick="toggleCart()"></i>
         </div>
         
         <div id="cart-items-list"></div>
 
-        <div id="qr-payment-section" style="display: none; text-align: center; margin: 20px 0; padding: 15px; border: 1px dashed #D4AF37; background: rgba(212, 175, 55, 0.05); border-radius: 8px;">
-            <h4 style="font-family: 'Cinzel'; color: #D4AF37; font-size: 0.8rem; margin-bottom: 10px;">SCAN TO PAY (UPI)</h4>
-            <img src="assets/images/payment-qr.png" alt="UPI QR Code" style="width: 150px; height: 150px; border: 2px solid #fff; background: #fff; padding: 5px;">
-            <p style="font-size: 0.6rem; color: #888; margin-top: 10px;">Scan to pay. Share screenshot on WhatsApp.</p>
+        <div id="qr-payment-section" style="display: none; text-align: center; padding: 15px; border: 1px dashed #D4AF37; margin: 15px; background: rgba(212,175,55,0.05); border-radius: 8px;">
+            <h4 style="font-family: 'Cinzel'; color: #D4AF37; font-size: 0.7rem; margin-bottom: 10px;">SECURE UPI PAYMENT</h4>
+            <div id="qr-container"></div>
+            <a id="upi-pay-link" href="#" class="btn-gold-outline" style="display: block; font-size: 0.6rem; margin-top: 15px; text-decoration: none;">OPEN UPI APP</a>
         </div>
 
         <div class="address-section">
-            <h4>SHIPPING DETAILS</h4>
-            <input type="text" id="cust-address" placeholder="Street Address" class="gold-input">
-            <div class="input-row">
-                <input type="text" id="cust-city" placeholder="City" class="gold-input">
-                <input type="text" id="cust-zip" placeholder="ZIP" class="gold-input">
+            <h4 style="font-size:0.7rem; letter-spacing:2px; color:#D4AF37; margin-bottom:15px; padding-left:20px;">SHIPPING DETAILS</h4>
+            <div style="padding: 0 20px;">
+                <input type="text" id="cust-address" placeholder="Street Address" class="gold-input">
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="cust-city" placeholder="City" class="gold-input">
+                    <input type="text" id="cust-zip" placeholder="ZIP" class="gold-input">
+                </div>
             </div>
         </div>
 
         <div class="cart-footer">
-            <div class="total-row" style="display:flex; justify-content:space-between; margin-bottom: 15px;">
+            <div class="total-row">
                 <span>TOTAL</span>
                 <span id="cart-total">₹0.00</span>
             </div>
             <button class="whatsapp-btn" onclick="checkoutViaWhatsApp()">
-                ORDER ON WHATSAPP <i class="fa-brands fa-whatsapp"></i>
+                PLACE ORDER ON WHATSAPP <i class="fa-brands fa-whatsapp"></i>
             </button>
         </div>
     </div>
-
-    <footer>
-        <div class="footer-content">
-            <div class="socials">
-                <a href="https://www.instagram.com/powderoots?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
-            </div>
-            <p>&copy; 2026 POWDER ROOT.</p>
-        </div>
-    </footer>
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="module" src="js/app.js"></script>
