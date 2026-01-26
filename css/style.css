@@ -138,7 +138,7 @@ body.cart-open::after {
 /* Hover effect */
 .btn-gold-outline:hover {
     background-color: linear-gradient(135deg, #d4af37, #f5e38c, #d4af37);       /* Gold background on hover */
-    color: #000000;                  /* Black text on hover */
+    color: #FFFFFF;                  /* Black text on hover */
     border: 2px solid #000000;      /* Border changes to black */
     transform: scale(1.05);          /* Slight zoom effect */
     box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5); /* Soft gold glow */
@@ -237,6 +237,7 @@ body.cart-open::after {
     transform: scale(1.2);
     color: white;
 }
+
 
 
 
