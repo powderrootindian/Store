@@ -123,12 +123,12 @@ body.cart-open::after {
 .btn-gold-outline {
     background-color: #000000;       /* Black background */
     color: #FFD700;                  /* Gold text */
-    font-family: 'Playfair Display', serif;  /* Elegant font */
+    font-family: Cinzel, serif;  /* Elegant font */
     font-size: 16px;
     font-weight: bold;
-    padding: 12px 28px;
+    padding: 10px 24px;
     border: 1px solid #FFD700;       /* Gold border */
-    border-radius: 5px;             /* Rounded corners */
+    border-radius: 7px;             /* Rounded corners */
     cursor: pointer;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -137,7 +137,7 @@ body.cart-open::after {
 
 /* Hover effect */
 .btn-gold-outline:hover {
-    background-color: #FFD700;       /* Gold background on hover */
+    background-color: linear-gradient(135deg, #d4af37, #f5e38c, #d4af37);       /* Gold background on hover */
     color: #000000;                  /* Black text on hover */
     border: 2px solid #000000;      /* Border changes to black */
     transform: scale(1.05);          /* Slight zoom effect */
@@ -237,6 +237,7 @@ body.cart-open::after {
     transform: scale(1.2);
     color: white;
 }
+
 
 
 
