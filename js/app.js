@@ -165,7 +165,4 @@ window.toggleCart = toggleCart;
 window.removeItem = removeItem;
 window.checkoutViaWhatsApp = checkoutViaWhatsApp;
 window.handleLogout = handleLogout;
-
 });
-
-
