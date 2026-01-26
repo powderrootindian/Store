@@ -4,7 +4,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signO
 // --- CONFIGURATION (REPLACE THESE) ---
 const firebaseConfig = { 
     apiKey: "AIzaSyC-VwmmnGZBPGctP8bWp_ozBBTw45-eYds", 
-    authDomain: "powderroot26.firebaseapp.com"", 
+    authDomain: "powderroot26.firebaseapp.com", 
     projectId: "powderroot26",
     // Add other firebase config lines here
 };
@@ -156,3 +156,4 @@ products.forEach(p => {
             <button class="btn-gold-outline" onclick="addToCart(${p.id})">ADD TO BAG</button>
         </div>`;
 });
+
