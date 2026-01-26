@@ -93,10 +93,26 @@ body.cart-open::after {
 .total-row { display: flex; justify-content: space-between; margin-bottom: 15px; font-family: var(--font-heading); letter-spacing: 1px; }
 
 /* Buttons */
-.btn-gold { background: var(--gold); color: #000; padding: 15px 40px; border: none; font-weight: 600; cursor: pointer; letter-spacing: 2px; }
-.btn-gold-outline { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 10px 20px; font-size: 0.75rem; letter-spacing: 2px; cursor: pointer; transition: 0.3s; }
-.btn-gold-outline:hover { background: var(--gold); color: #000; }
-.btn-gold-outline.full-width { width: 100%; display: block; text-align: center; text-decoration: none; }
+.btn-gold {
+    background: linear-gradient(135deg, #d4af37, #f5e38c, #d4af37);
+    color: #000;
+    padding: 16px 45px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: 3px;
+    font-size: 0.8rem;
+    box-shadow: 0 0 25px rgba(212,175,55,0.4);
+    transition: 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-gold:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 0 40px rgba(212,175,55,0.7);
+}
+
 
 .whatsapp-btn {
     width: 100%; background: #25D366; color: white; border: none; padding: 18px;
@@ -186,5 +202,16 @@ body.cart-open::after {
     color: var(--gold);
     font-size: 1.1rem;
 }
+.insta-link {
+    color: var(--gold);
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+
+.insta-link:hover {
+    transform: scale(1.2);
+    color: white;
+}
+
 
 
