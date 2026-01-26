@@ -80,15 +80,25 @@ window.toggleCart = () => {
     document.body.classList.toggle('cart-open'); // PC Overlay Effect
 };
 
+// Ensure this is at the global level in your app.js
 window.addToCart = (id) => {
-    const product = products.find(x => x.id === id);
-    if (!product) return;
-    cart.push(product);
-    renderCart();
-    const drawer = document.getElementById('cart-drawer');
-    if (drawer) {
-        drawer.classList.add('active');
+    // 1. Find the product
+    const product = products.find(p => p.id === id);
+    
+    if (product) {
+        // 2. Add to the cart array
+        cart.push(product);
+        
+        // 3. Update the UI
+        renderCart();
+        
+        // 4. Open the drawer and dim the background
+        document.getElementById('cart-drawer').classList.add('active');
         document.body.classList.add('cart-open');
+        
+        console.log("Added to bag:", product.name);
+    } else {
+        console.error("Product not found for ID:", id);
     }
 };
 
@@ -217,3 +227,4 @@ if (container) {
 
 // Initial render
 renderCart();
+
