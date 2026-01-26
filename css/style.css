@@ -120,8 +120,7 @@ body.cart-open::after {
 }
 .whatsapp-btn:hover { background: #20bd5a; }
 /* Premium Black & Gold Login Button */
-.btn-gold-outline {
-    background-color: #000000;       /* Black background */
+.btn-gold-outline {     
     color: #FFD700;                  /* Gold text */
     font-family: Cinzel, serif;  /* Elegant font */
     font-size: 16px;
@@ -237,6 +236,7 @@ body.cart-open::after {
     transform: scale(1.2);
     color: white;
 }
+
 
 
 
