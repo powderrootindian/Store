@@ -1,294 +1,37 @@
-/* --- 1. CORE VARIABLES & RESET --- */
-:root {
-    --gold: #D4AF37;
-    --black: #050505;
-    --deep-gray: #111111;
-    --text-gray: #888888;
-    --white: #ffffff;
-    --premium-font: 'Cinzel', serif;
-    --body-font: 'Montserrat', sans-serif;
-}
+:root { --gold: #D4AF37; --black: #050505; }
+body { margin: 0; font-family: 'Montserrat', sans-serif; background: var(--black); color: #fff; overflow-x: hidden; }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* Circular Logo */
+#nav-logo { height: 45px; width: 45px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--gold); }
+.logo { font-family: 'Cinzel'; font-size: 1.2rem; letter-spacing: 3px; text-transform: uppercase; }
+.logo span { color: var(--gold); }
 
-body {
-    font-family: var(--body-font);
-    background: var(--black);
-    color: var(--white);
-    overflow-x: hidden;
-}
+/* Navigation */
+nav { position: fixed; top: 0; width: 100%; padding: 20px; display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(15px); background: rgba(0,0,0,0.7); z-index: 1000; box-sizing: border-box; border-bottom: 1px solid rgba(212,175,55,0.1); }
+.logo-container { display: flex; align-items: center; gap: 12px; cursor: pointer; }
 
-/* --- 2. NAVIGATION & CIRCULAR LOGO --- */
-nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    padding: 20px 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.95), transparent);
-    z-index: 1000;
-}
+/* Premium Mobile Drawer */
+.cart-drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100%; background: rgba(8,8,8,0.98); backdrop-filter: blur(20px); z-index: 10001; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); display: flex; flex-direction: column; border-left: 1px solid var(--gold); }
+.cart-drawer.active { right: 0; }
+.cart-header { padding: 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1a1a1a; }
+#cart-items-list { flex: 1; overflow-y: auto; padding: 20px; }
 
-.logo-container {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-}
+/* Product Grid */
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; padding: 100px 20px; }
+.product-card { background: rgba(255,255,255,0.03); padding: 20px; text-align: center; border: 1px solid #111; transition: 0.3s; }
+.product-card:hover { border-color: var(--gold); transform: translateY(-5px); }
+.product-card img { width: 100%; height: 280px; object-fit: cover; margin-bottom: 20px; }
 
-#nav-logo {
-    height: 48px;
-    width: 48px;
-    border-radius: 50%; /* Makes Logo Circular */
-    object-fit: cover;
-    border: 1.5px solid var(--gold);
-    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-}
+/* UI Elements */
+.gold-input { width: 100%; background: #111; border: 1px solid #222; color: #fff; padding: 12px; margin-bottom: 10px; font-size: 16px; outline: none; }
+.btn-gold-outline { background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 10px 20px; cursor: pointer; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; }
+.whatsapp-btn { width: 100%; background: #25D366; color: white; border: none; padding: 18px; font-weight: bold; cursor: pointer; letter-spacing: 1px; }
+.total-row { display: flex; justify-content: space-between; padding: 20px; background: #000; border-top: 1px solid #1a1a1a; }
 
-.logo {
-    font-family: var(--premium-font);
-    font-size: 1.3rem;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-}
+/* Background Video */
+.video-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+#bgVideo { width: 100%; height: 100%; object-fit: cover; }
+.overlay { position: absolute; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); }
 
-.logo span {
-    color: var(--gold);
-}
-
-.nav-right {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-}
-
-/* --- 3. HERO & BACKGROUND VIDEO --- */
-.video-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
-
-#bgVideo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.overlay {
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.8) 100%);
-}
-
-.hero {
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-}
-
-.hero-content h5 {
-    color: var(--gold);
-    letter-spacing: 5px;
-    margin-bottom: 20px;
-    font-size: 0.8rem;
-}
-
-.hero-content h1 {
-    font-family: var(--premium-font);
-    font-size: clamp(2.5rem, 8vw, 4.5rem);
-    line-height: 1.1;
-    margin-bottom: 30px;
-}
-
-/* --- 4. PRODUCT GRID & CARDS --- */
-.shop-section {
-    padding: 100px 5%;
-    background: var(--black);
-}
-
-.section-title {
-    font-family: var(--premium-font);
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 60px;
-    letter-spacing: 4px;
-}
-
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 40px;
-}
-
-.product-card {
-    background: var(--deep-gray);
-    padding: 25px;
-    text-align: center;
-    border: 1px solid #1a1a1a;
-    transition: transform 0.4s ease;
-}
-
-.product-card:hover {
-    transform: translateY(-10px);
-    border-color: var(--gold);
-}
-
-.product-card img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    margin-bottom: 20px;
-}
-
-/* --- 5. MOBILE-OPTIMIZED CART DRAWER --- */
-.cart-drawer {
-    position: fixed;
-    top: 0;
-    right: -100%; /* Hidden by default */
-    width: 100%;
-    max-width: 420px;
-    height: 100%;
-    background: #080808;
-    z-index: 10001;
-    transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    display: flex;
-    flex-direction: column;
-    border-left: 1px solid #1a1a1a;
-}
-
-.cart-drawer.active {
-    right: 0;
-}
-
-.cart-header {
-    padding: 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #1a1a1a;
-}
-
-.cart-header h3 {
-    font-family: var(--premium-font);
-    letter-spacing: 2px;
-}
-
-#cart-items-list {
-    flex: 1;
-    overflow-y: auto; /* Makes items scrollable on mobile */
-    padding: 30px;
-}
-
-.cart-footer {
-    padding: 30px;
-    background: #0a0a0a;
-    border-top: 1px solid #1a1a1a;
-}
-
-/* --- 6. INPUTS & BUTTONS --- */
-.gold-input {
-    width: 100%;
-    background: #111;
-    border: 1px solid #222;
-    color: #fff;
-    padding: 14px;
-    margin-bottom: 12px;
-    font-size: 16px; /* Prevents auto-zoom on mobile */
-    outline: none;
-}
-
-.btn-gold {
-    background: var(--gold);
-    color: #000;
-    border: none;
-    padding: 15px 40px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    cursor: pointer;
-    font-family: var(--body-font);
-}
-
-.btn-gold-outline {
-    background: transparent;
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    padding: 12px 25px;
-    cursor: pointer;
-    font-size: 0.75rem;
-    letter-spacing: 2px;
-    transition: 0.3s;
-}
-
-.btn-gold-outline:hover {
-    background: var(--gold);
-    color: #000;
-}
-
-.whatsapp-btn {
-    width: 100%;
-    background: #25D366;
-    color: white;
-    border: none;
-    padding: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    letter-spacing: 1px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-}
-
-/* --- 7. MISC UTILITIES --- */
-.hidden { display: none !important; }
-
-#user-img {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    border: 1.5px solid var(--gold);
-}
-
-.cart-trigger {
-    position: relative;
-    cursor: pointer;
-    font-size: 1.4rem;
-}
-
-#cart-count {
-    position: absolute;
-    top: -8px;
-    right: -10px;
-    background: var(--gold);
-    color: #000;
-    font-size: 0.65rem;
-    font-weight: bold;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* --- 8. RESPONSIVE MEDIA QUERIES --- */
-@media (max-width: 768px) {
-    nav { padding: 15px 20px; }
-    .logo { font-size: 1rem; }
-    .cart-drawer { width: 100%; } /* Full screen mobile */
-    .hero-content h1 { font-size: 2.5rem; }
-}
+#user-img { width: 35px; height: 35px; border-radius: 50%; border: 1px solid var(--gold); }
+#logout-link { font-size: 0.7rem; color: var(--gold); cursor: pointer; margin-left: 10px; }
