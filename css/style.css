@@ -1,4 +1,3 @@
-/* --- 1. VARIABLES & RESET --- */
 :root {
     --gold: #D4AF37;
     --black: #050505;
@@ -10,237 +9,75 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: var(--font-body); background: var(--black); color: #fff; overflow-x: hidden; }
 
-/* --- 2. PC SPECIFIC SCROLLBAR --- */
+/* PC Scrollbar */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: var(--black); }
-::-webkit-scrollbar-thumb { background: #333; border: 1px solid #000; border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
 
-/* --- 3. NAVIGATION (GLASSMORPHISM) --- */
+/* Navigation */
 nav {
     position: fixed; top: 0; width: 100%; padding: 20px 5%;
     display: flex; justify-content: space-between; align-items: center;
     backdrop-filter: blur(15px); background: rgba(0,0,0,0.6);
     border-bottom: 1px solid rgba(212, 175, 55, 0.15); z-index: 1000;
 }
-.logo-container { display: flex; align-items: center; gap: 12px; cursor: pointer; }
-#nav-logo { height: 45px; width: 45px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--gold); }
-.logo { font-family: var(--font-heading); font-size: 1.2rem; letter-spacing: 2px; }
-.logo span { color: var(--gold); }
-.nav-right { display: flex; align-items: center; gap: 20px; }
 
-/* --- 4. HERO SECTION --- */
-.video-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-#bgVideo { width: 100%; height: 100%; object-fit: cover; }
-.overlay { position: absolute; top: 0; width: 100%; height: 100%; background: radial-gradient(circle, rgba(0,0,0,0.3), rgba(0,0,0,0.9)); }
+/* Premium Buttons */
+.btn-gold-outline {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 12px 24px;
+    font-family: var(--font-heading);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    width: 100%;
+}
 
-.hero { height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
-.hero-content h5 { color: var(--gold); letter-spacing: 5px; font-size: 0.8rem; margin-bottom: 15px; }
-.hero-content h1 { font-family: var(--font-heading); font-size: 3.5rem; line-height: 1.1; margin-bottom: 30px; }
+.btn-gold-outline:hover {
+    background: var(--gold);
+    color: #000;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+    transform: translateY(-2px);
+}
 
-/* --- 5. PRODUCT GRID --- */
-.shop-section { padding: 100px 5%; background: rgba(5,5,5,0.8); }
-.section-title { font-family: var(--font-heading); text-align: center; font-size: 2rem; margin-bottom: 50px; color: var(--gold); }
-.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; }
+/* Product Card Grid */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    padding: 120px 5% 50px;
+}
 
 .product-card {
-    background: rgba(255,255,255,0.02); padding: 25px; text-align: center;
-    border: 1px solid #222; transition: all 0.4s ease;
+    background: rgba(255,255,255,0.02);
+    padding: 30px;
+    border: 1px solid #1a1a1a;
+    text-align: center;
+    transition: 0.4s;
 }
-.product-card:hover { transform: translateY(-10px); border-color: var(--gold); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-.product-card img { width: 100%; height: 280px; object-fit: cover; margin-bottom: 20px; filter: contrast(1.1); }
 
-/* --- 6. CART DRAWER (PREMIUM & RESPONSIVE) --- */
+.product-card:hover {
+    border-color: var(--gold);
+    background: rgba(255,255,255,0.05);
+}
+
+.product-card img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 25px;
+    filter: contrast(1.05);
+}
+
+/* Cart Drawer */
 .cart-drawer {
     position: fixed; top: 0; right: -100%; width: 100%; max-width: 420px; height: 100%;
-    background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(20px);
+    background: var(--glass); backdrop-filter: blur(20px);
     z-index: 10001; transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
-    display: flex; flex-direction: column; border-left: 1px solid #333;
+    border-left: 1px solid #222;
 }
 .cart-drawer.active { right: 0; }
-
-/* PC Dimming Overlay */
-body.cart-open::after {
-    content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 9999;
-    animation: fadeIn 0.4s;
-}
-@keyframes fadeIn { from {opacity:0} to {opacity:1} }
-
-.cart-header { padding: 25px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; }
-.cart-header h3 { font-family: var(--font-heading); letter-spacing: 2px; font-size: 1rem; }
-.fa-xmark { cursor: pointer; font-size: 1.2rem; transition: 0.3s; }
-.fa-xmark:hover { color: var(--gold); transform: rotate(90deg); }
-
-#cart-items-list { flex: 1; overflow-y: auto; padding: 20px; }
-
-/* Payment & Inputs */
-#qr-payment-section { padding: 20px; background: rgba(212,175,55,0.03); border-top: 1px solid #222; text-align: center; }
-#qr-container img { border: 5px solid #fff; border-radius: 4px; margin-bottom: 15px; }
-.gold-subtitle { font-size: 0.7rem; color: var(--gold); letter-spacing: 2px; margin-bottom: 15px; }
-
-.address-section { padding: 20px; }
-.gold-input {
-    width: 100%; background: transparent; border: none; border-bottom: 1px solid #333;
-    color: #fff; padding: 10px 0; margin-bottom: 20px; font-family: var(--font-body);
-    font-size: 16px; outline: none; transition: 0.3s;
-}
-.gold-input:focus { border-color: var(--gold); }
-.row { display: flex; gap: 15px; }
-
-/* Footer */
-.cart-footer { padding: 25px; background: #000; border-top: 1px solid #222; }
-.total-row { display: flex; justify-content: space-between; margin-bottom: 15px; font-family: var(--font-heading); letter-spacing: 1px; }
-
-/* Buttons */
-.btn-gold {
-    background: linear-gradient(135deg, #d4af37, #f5e38c, #d4af37);
-    color: #000;
-    padding: 16px 45px;
-    border: none;
-    font-weight: 600;
-    cursor: pointer;
-    letter-spacing: 3px;
-    font-size: 0.8rem;
-    box-shadow: 0 0 25px rgba(212,175,55,0.4);
-    transition: 0.4s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.btn-gold:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: 0 0 40px rgba(212,175,55,0.7);
-}
-
-
-.whatsapp-btn {
-    width: 100%; background: #25D366; color: white; border: none; padding: 18px;
-    font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
-}
-.whatsapp-btn:hover { background: #20bd5a; }
-/* Premium Black & Gold Login Button */
-.btn-gold-outline {     
-    color: #FFD700;                  /* Gold text */
-    font-family: Cinzel, serif;  /* Elegant font */
-    font-size: 16px;
-    font-weight: bold;
-    padding: 10px 24px;
-    border: 1px solid #FFD700;       /* Gold border */
-    border-radius: 7px;             /* Rounded corners */
-    cursor: pointer;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.4s ease;
-}
-
-/* Hover effect */
-.btn-gold-outline:hover {
-    background-color: linear-gradient(135deg, #d4af37, #f5e38c, #d4af37);       /* Gold background on hover */
-    color: #FFFFFF;                  /* Black text on hover */
-    border: 2px solid #000000;      /* Border changes to black */
-    transform: scale(1.05);          /* Slight zoom effect */
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5); /* Soft gold glow */
-}
-
-
-/* Utility */
-.hidden { display: none !important; }
-#user-img { width: 35px; height: 35px; border-radius: 50%; border: 1px solid var(--gold); }
-#logout-link { font-size: 0.7rem; color: var(--gold); cursor: pointer; margin-left: 10px; }
-.cart-trigger { position: relative; cursor: pointer; }
-#cart-count { position: absolute; top: -8px; right: -8px; background: var(--gold); color: #000; width: 18px; height: 18px; border-radius: 50%; font-size: 0.7rem; font-weight: bold; display: flex; justify-content: center; align-items: center; }
-
-/* Mobile Typography Fix */
-@media (max-width: 768px) {
-    .hero-content h1 { font-size: 2.2rem; }
-    nav { padding: 15px 5%; }
-    .cart-drawer { width: 100%; max-width: 100%; } /* Full width on mobile */
-}
-/* --- PREMIUM ADDITIONS --- */
-
-.trust-strip {
-    display: flex;
-    justify-content: space-around;
-    padding: 25px 10%;
-    background: linear-gradient(90deg, rgba(212,175,55,0.05), rgba(0,0,0,0));
-    border-top: 1px solid rgba(212,175,55,0.15);
-    border-bottom: 1px solid rgba(212,175,55,0.15);
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-}
-
-.about-premium {
-    padding: 120px 10% 80px;
-    text-align: center;
-    max-width: 900px;
-    margin: auto;
-}
-
-.about-premium h2 {
-    font-family: var(--font-heading);
-    color: var(--gold);
-    margin-bottom: 25px;
-    font-size: 2.2rem;
-}
-
-.about-premium p {
-    font-size: 1rem;
-    line-height: 1.9;
-    opacity: 0.85;
-}
-
-/* Upgrade product cards */
-.product-card {
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.3));
-    position: relative;
-    overflow: hidden;
-}
-
-.product-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 12px;
-    opacity: 0;
-    transition: 0.4s;
-    box-shadow: inset 0 0 0 1px rgba(212,175,55,0.6), 0 0 30px rgba(212,175,55,0.15);
-}
-
-.product-card:hover::after {
-    opacity: 1;
-}
-
-/* Cart item polish */
-#cart-items-list > div {
-    transition: 0.3s;
-}
-#cart-items-list > div:hover {
-    transform: translateX(-4px);
-}
-
-/* Total highlight */
-.total-row {
-    color: var(--gold);
-    font-size: 1.1rem;
-}
-.insta-link {
-    color: var(--gold);
-    font-size: 1.2rem;
-    transition: 0.3s;
-}
-
-.insta-link:hover {
-    transform: scale(1.2);
-    color: white;
-}
-
-
-
-
-
-
-
-
