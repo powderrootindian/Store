@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>POWDER ROOT | Indian Artisanal Boutique</title>
+    <title>POWDER ROOT | Premium Indian Spices</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
@@ -12,30 +12,38 @@
 
     <div class="trust-nav">
         <div class="trust-slider">
-            <span><i class="fa-solid fa-shield-halved"></i> 100% SECURE DIRECT PAY</span>
-            <span><i class="fa-solid fa-seedling"></i> CHOSEN INDIAN VEGETABLES</span>
-            <span><i class="fa-solid fa-truck-fast"></i> PAN-INDIA EXPRESS DELIVERY</span>
-            <span><i class="fa-solid fa-microscope"></i> LABORATORY TESTED PURITY</span>
+            <span><i class="fa-solid fa-shield-halved"></i> SECURE UPI PAYMENT</span>
+            <span><i class="fa-solid fa-seedling"></i> PREMIUM INDIAN HARVEST</span>
+            <span><i class="fa-brands fa-instagram"></i> FOLLOW @POWDERROOT</span>
         </div>
     </div>
 
     <section class="hero">
         <div class="video-container">
-            <video autoplay muted loop playsinline id="bg-video">
+            <video autoplay muted loop playsinline id="bg-video" poster="assets/images/onion.jpg">
                 <source src="assets/video/bg-texture.mp4" type="video/mp4">
             </video>
             <div class="video-overlay"></div>
         </div>
         
         <nav>
-           <div class="logo">
-    <img src="assets/images/logo.png" alt="POWDER ROOT" style="height: 40px; width: auto;">
-</div>
+            <div class="brand-box">
+                <img src="assets/images/logo.jpg" alt="Logo" class="round-logo">
+                <div class="logo-text">POWDER<span>ROOT</span></div>
+            </div>
+
             <div class="nav-right">
+                <a href="https://instagram.com/powderroot" target="_blank" class="nav-social">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                
                 <div id="user-profile" class="hidden auth-profile">
                     <img id="user-img" src="" alt="User">
                 </div>
+
                 <button id="login-btn" class="btn-gold-nav" onclick="handleLogin()">LOGIN</button>
+                <button id="logout-btn" class="btn-gold-nav hidden" onclick="handleLogout()">LOGOUT</button>
+
                 <div class="cart-trigger" onclick="toggleCart()">
                     <i class="fa-solid fa-bag-shopping"></i>
                     <span id="cart-count">0</span>
@@ -44,12 +52,17 @@
         </nav>
 
         <div class="hero-content">
-            <span class="eyebrow">THE APOTHECARY OF ROOTS</span>
-            <h1>SELECTED EARTH.</h1>
+            <span class="eyebrow">ESTD 2026 | BHARAT</span>
+            <h1>CONCENTRATED EARTH.</h1>
+            <p class="hero-subtext">Premium Vegetable Powders</p>
         </div>
     </section>
 
     <main class="shop-container" id="shop">
+        <div class="section-header">
+            <span>THE COLLECTION</span>
+            <div class="gold-line"></div>
+        </div>
         <div class="product-grid" id="product-container"></div>
     </main>
 
@@ -60,23 +73,23 @@
         </div>
         <div id="cart-items-list"></div>
         <div class="cart-footer">
-            <div class="total-row"><span>GRAND TOTAL</span><span id="cart-total">₹0</span></div>
+            <div class="total-row"><span>TOTAL</span><span id="cart-total">₹0</span></div>
 
             <div id="secure-payment-zone" class="hidden">
                 <div class="qr-wrapper">
-                    <p>DIRECT UPI SCAN</p>
+                    <p>SCAN TO PAY</p>
                     <div id="qr-container"></div>
                 </div>
-                <a id="upi-intent-link" class="premium-pay-btn">PAY WITH UPI APP</a>
+                <a id="upi-intent-link" class="premium-pay-btn">PAY VIA UPI APP</a>
                 <button class="whatsapp-btn" onclick="syncOrderToWhatsApp()">SYNC TO WHATSAPP</button>
             </div>
 
             <div id="checkout-lock-msg" class="lock-notice">
-                <i class="fa-solid fa-lock"></i> Authorize & Enter Address to Pay
+                <i class="fa-solid fa-lock"></i> Please Login & Enter Address
             </div>
 
             <div class="premium-input">
-                <input type="text" id="cust-address" required placeholder="SHIPPING DESTINATION" oninput="validateCheckout()">
+                <input type="text" id="cust-address" required placeholder="SHIPPING ADDRESS" oninput="validateCheckout()">
             </div>
         </div>
     </div>
@@ -85,4 +98,3 @@
     <script type="module" src="js/app.js"></script>
 </body>
 </html>
-
