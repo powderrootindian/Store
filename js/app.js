@@ -19,9 +19,9 @@ const provider = new GoogleAuthProvider();
 emailjs.init(EMAILJS_KEY);
 
 const products = [
-    { id: 1, name: "ONION POWDER", price: 299, img: "assets/images/onion.jpg" },
-    { id: 2, name: "GARLIC POWDER", price: 179, img: "assets/images/garlic.jpg" },
-    { id: 3, name: "GINGER POWDER", price: 179, img: "assets/images/ginger.jpg" }
+    { id: 1, name: "PURE ONION POWDER", price: 299, img: "assets/images/onion.jpg" },
+    { id: 2, name: "ARTISANAL GARLIC POWDER", price: 179, img: "assets/images/garlic.jpg" },
+    { id: 3, name: "RAW GINGER POWDER", price: 179, img: "assets/images/ginger.jpg" }
 ];
 let cart = [];
 
@@ -29,6 +29,7 @@ onAuthStateChanged(auth, (user) => {
     document.getElementById('login-btn').classList.toggle('hidden', !!user);
     document.getElementById('user-profile').classList.toggle('hidden', !user);
     if(user) document.getElementById('user-img').src = user.photoURL;
+    validateCheckout(); 
 });
 
 window.handleLogin = () => signInWithPopup(auth, provider);
@@ -44,50 +45,44 @@ function renderCart() {
     let total = 0; list.innerHTML = '';
     cart.forEach(item => {
         total += item.price;
-        list.innerHTML += `<div style="display:flex; justify-content:space-between; padding:12px 0; border-bottom:1px solid #222; font-size:0.9rem;"><span>${item.name}</span><span>₹${item.price}</span></div>`;
+        list.innerHTML += `<div style="display:flex; justify-content:space-between; padding:15px 0; border-bottom:1px solid #222; font-size:0.8rem;"><span>${item.name}</span><span style="color:var(--gold)">₹${item.price}</span></div>`;
     });
     document.getElementById('cart-total').innerText = `₹${total}`;
     document.getElementById('cart-count').innerText = cart.length;
-
-    if(total > 0) {
-        document.getElementById('payment-area').classList.remove('hidden');
-        const upiUrl = `upi://pay?pa=${UPI_ID}&pn=PowderRoot&am=${total}&cu=INR`;
-        // Desktop QR
-        document.getElementById('qr-container').innerHTML = `<img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodeURIComponent(upiUrl)}">`;
-        // Mobile Intent
-        document.getElementById('upi-intent-link').href = upiUrl;
-    }
+    validateCheckout();
 }
 
-window.processOrder = () => {
+window.validateCheckout = () => {
+    const user = auth.currentUser, addr = document.getElementById('cust-address').value.trim();
+    const payZone = document.getElementById('secure-payment-zone'), lockMsg = document.getElementById('checkout-lock-msg');
+
+    if (user && addr.length > 5 && cart.length > 0) {
+        payZone.classList.remove('hidden'); lockMsg.classList.add('hidden');
+        const total = cart.reduce((a, b) => a + b.price, 0);
+        const upiUrl = `upi://pay?pa=${UPI_ID}&pn=PowderRoot&am=${total}&cu=INR`;
+        document.getElementById('qr-container').innerHTML = `<img src="https://chart.googleapis.com/chart?chs=180x180&cht=qr&chl=${encodeURIComponent(upiUrl)}">`;
+        document.getElementById('upi-intent-link').href = upiUrl;
+    } else {
+        payZone.classList.add('hidden'); lockMsg.classList.remove('hidden');
+    }
+};
+
+window.syncOrderToWhatsApp = () => {
     const user = auth.currentUser, addr = document.getElementById('cust-address').value;
-    if(!user || !addr) return alert("Please Login & Enter Address first");
+    const total = cart.reduce((a, b) => a + b.price, 0), items = cart.map(i => i.name).join(", ");
 
-    const total = cart.reduce((a, b) => a + b.price, 0);
-    const items = cart.map(i => i.name).join(", ");
+    emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, { customer_name: user.displayName, order_details: items, total_price: `₹${total}`, shipping_address: addr });
 
-    // 1. Send Email Log
-    emailjs.send(EMAILJS_SERVICE, EMAILJS_TEMPLATE, { 
-        customer_name: user.displayName, 
-        order_details: items, 
-        total_price: `₹${total}`, 
-        shipping_address: addr 
-    });
-
-    // 2. Open WhatsApp Confirmation
-    const msg = `✨ *ORDER INITIATED* ✨\n👤 *Client:* ${user.displayName}\n💰 *Total:* ₹${total}\n📍 *Address:* ${addr}`;
+    const msg = `✨ *POWDER ROOT DIRECT ORDER* ✨\n👤 *Client:* ${user.displayName}\n💰 *Paid:* ₹${total}\n📍 *Destination:* ${addr}\n📦 *Items:* ${items}\n🔗 instagram.com/powderroot`;
     window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(msg)}`, '_blank');
-
-    // 3. Show Success Overlay
-    document.getElementById('success-overlay').classList.remove('hidden');
 };
 
 products.forEach(p => {
     document.getElementById('product-container').innerHTML += `
         <div class="product-card">
-            <img src="${p.img}" onerror="this.src='https://via.placeholder.com/300'">
-            <h3 style="font-family:'Cinzel'; font-size:1rem;">${p.name}</h3>
-            <p style="color:var(--gold); margin:10px 0; font-weight:bold;">₹${p.price}</p>
-            <button onclick="addToCart(${p.id})" style="width:100%; padding:10px; background:none; border:1px solid var(--gold); color:var(--gold); cursor:pointer;">ADD TO BAG</button>
+            <img src="${p.img}" onerror="this.src='https://via.placeholder.com/400'">
+            <h3 style="font-family:'Cinzel'; font-size:0.9rem;">${p.name}</h3>
+            <p style="color:var(--gold); margin:15px 0; font-weight:700;">₹${p.price}</p>
+            <button class="premium-pay-btn" style="background:none; border:1px solid var(--gold); color:var(--gold);" onclick="addToCart(${p.id})">ADD TO BAG</button>
         </div>`;
 });
