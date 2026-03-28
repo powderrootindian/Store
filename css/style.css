@@ -52,3 +52,13 @@ nav { position: absolute; top: 40px; width: 100%; padding: 30px 6%; display: fle
 .hidden { display: none !important; }
 .user-chip img { width: 35px; height: 35px; border-radius: 50%; border: 1px solid var(--gold); margin-right: 10px; }
 .nav-actions { display: flex; align-items: center; }
+ .merchant-notice {
+    font-size: 0.6rem;
+    color: #888;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.merchant-notice i { color: #2ecc71; } /* Green checkmark */
