@@ -153,3 +153,16 @@ products.forEach(p => {
             <button class="gold-outline-btn" style="width:100%" onclick="addToCart(${p.id})">ADD TO BAG</button>
         </div>`;
 });
+// Force Video Autoplay on Load
+window.addEventListener('load', () => {
+    const video = document.getElementById('bg-video');
+    if (video) {
+        video.play().catch(error => {
+            console.log("Autoplay was prevented. Waiting for user interaction.");
+            // If prevented, play it on the first click anywhere on the page
+            document.body.addEventListener('click', () => {
+                video.play();
+            }, { once: true });
+        });
+    }
+});
