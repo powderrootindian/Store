@@ -2,30 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>POWDER ROOT | Artisanal Indian Spices</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="assets/images/logo.jpg">
 </head>
 <body>
 
     <div class="trust-bar">
         <div class="scrolling-content">
-            <span><i class="fa-solid fa-crown"></i> VEDIC PURITY GUARANTEED</span>
+            <span><i class="fa-solid fa-crown"></i> VEDIC PURITY</span>
             <span><i class="fa-solid fa-bolt"></i> DIRECT UPI SETTLEMENT</span>
             <span><i class="fa-solid fa-leaf"></i> NO ADDED FILLERS</span>
-            <span><i class="fa-solid fa-truck-fast"></i> PAN-INDIA LUXURY SHIPPING</span>
-            <span><i class="fa-brands fa-instagram"></i> FOLLOW @POWDERROOT</span>
+            <span><i class="fa-solid fa-truck-fast"></i> LUXURY SHIPPING</span>
         </div>
     </div>
 
     <section class="hero">
         <div class="video-container">
-<video autoplay muted loop playsinline id="bg-video" poster="assets/images/placeholder.jpg">
-    <source src="assets/video/bg.mp4" type="video/mp4">
-</video>
+            <video autoplay muted loop playsinline id="bg-video" poster="assets/images/placeholder.jpg">
+                <source src="assets/video/bg.mp4" type="video/mp4">
+            </video>
             <div class="video-overlay"></div>
         </div>
         
@@ -36,15 +34,11 @@
             </div>
 
             <div class="nav-actions">
-                <a href="https://www.instagram.com/powderoots?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-link"><i class="fa-brands fa-instagram"></i></a>
-                
                 <div id="user-profile" class="user-chip hidden">
                     <img id="user-img" src="" alt="Profile">
                 </div>
-
                 <button id="auth-btn" class="gold-outline-btn" onclick="handleAuth()">LOGIN</button>
                 <button id="logout-btn" class="gold-outline-btn hidden" onclick="handleLogout()">LOGOUT</button>
-                
                 <div class="bag-icon" onclick="toggleCart()">
                     <i class="fa-solid fa-bag-shopping"></i>
                     <span id="bag-count">0</span>
@@ -53,9 +47,8 @@
         </nav>
 
         <div class="hero-statement">
-            <span class="sub-head">BORN FROM THE INDIAN SOIL</span>
             <h1>CONCENTRATED<br>EARTH.</h1>
-            <div class="scroll-hint"><span>THE HARVEST</span><div class="gold-line"></div></div>
+            <div class="scroll-hint"><span>THE HARVEST</span></div>
         </div>
     </section>
 
@@ -65,7 +58,7 @@
 
     <div id="cart-drawer" class="cart-drawer">
         <div class="drawer-header">
-            <h3>YOUR SELECTION</h3>
+            <h3>YOUR BAG</h3>
             <i class="fa-solid fa-xmark" onclick="toggleCart()"></i>
         </div>
         
@@ -73,28 +66,20 @@
 
         <div class="drawer-footer">
             <div class="bill-row"><span>SUBTOTAL</span><span id="cart-total">₹0</span></div>
-            <div class="upi-box">
-    <p>OFFICIAL UPI GATEWAY</p>
-    <div id="qr-code"></div>
-    <div class="merchant-notice">
-        <i class="fa-solid fa-circle-check"></i> 
-        Verified Account: POWDER ROOT (SPC)
-    </div>
-</div>
             
             <div id="payment-gate" class="locked-gate hidden">
                 <div class="upi-box">
                     <p>OFFICIAL UPI GATEWAY</p>
                     <div id="qr-code"></div>
+                    <div class="merchant-notice"><i class="fa-solid fa-circle-check"></i> POWDER ROOT (SPC)</div>
                 </div>
-                <a id="upi-link" class="gold-solid-btn">PAY WITH UPI APP</a>
                 <button class="whatsapp-sync-btn" onclick="sendToWhatsApp()">
-                    <i class="fa-brands fa-whatsapp"></i> SYNC TO WHATSAPP
+                    CONFIRM & SEND RECEIPT
                 </button>
             </div>
 
             <div id="lock-notice" class="lock-notice">
-                <i class="fa-solid fa-lock"></i> Authorize & provide destination to unlock payment
+                <i class="fa-solid fa-lock"></i> Login & provide address to pay
             </div>
 
             <div class="address-field">
