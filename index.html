@@ -3,93 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>POWDER ROOT | Premium Indian Spices</title>
+    <title>POWDER ROOT | Artisanal Indian Spices</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
-    <div class="trust-nav">
-        <div class="trust-slider">
-            <span><i class="fa-solid fa-shield-halved"></i> SECURE UPI PAYMENT</span>
-            <span><i class="fa-solid fa-seedling"></i> PREMIUM INDIAN HARVEST</span>
+    <div class="trust-bar">
+        <div class="scrolling-content">
+            <span><i class="fa-solid fa-crown"></i> VEDIC PURITY GUARANTEED</span>
+            <span><i class="fa-solid fa-bolt"></i> DIRECT UPI SETTLEMENT</span>
+            <span><i class="fa-solid fa-leaf"></i> NO ADDED FILLERS</span>
+            <span><i class="fa-solid fa-truck-fast"></i> PAN-INDIA LUXURY SHIPPING</span>
             <span><i class="fa-brands fa-instagram"></i> FOLLOW @POWDERROOT</span>
         </div>
     </div>
 
     <section class="hero">
         <div class="video-container">
-            <video autoplay muted loop playsinline id="bg-video" poster="assets/images/onion.jpg">
+            <video autoplay muted loop playsinline id="bg-video">
                 <source src="assets/video/bg-texture.mp4" type="video/mp4">
             </video>
             <div class="video-overlay"></div>
         </div>
         
         <nav>
-            <div class="brand-box">
-                <img src="assets/images/logo.jpg" alt="Logo" class="round-logo">
-                <div class="logo-text">POWDER<span>ROOT</span></div>
+            <div class="brand-identity">
+                <img src="assets/images/logo.jpg" alt="Logo" class="premium-logo">
+                <div class="brand-name">POWDER<span>ROOT</span></div>
             </div>
 
-            <div class="nav-right">
-                <a href="https://instagram.com/powderroot" target="_blank" class="nav-social">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
+            <div class="nav-actions">
+                <a href="https://instagram.com/powderroot" target="_blank" class="social-link"><i class="fa-brands fa-instagram"></i></a>
                 
-                <div id="user-profile" class="hidden auth-profile">
-                    <img id="user-img" src="" alt="User">
+                <div id="user-profile" class="user-chip hidden">
+                    <img id="user-img" src="" alt="Profile">
                 </div>
 
-                <button id="login-btn" class="btn-gold-nav" onclick="handleLogin()">LOGIN</button>
-                <button id="logout-btn" class="btn-gold-nav hidden" onclick="handleLogout()">LOGOUT</button>
-
-                <div class="cart-trigger" onclick="toggleCart()">
+                <button id="auth-btn" class="gold-outline-btn" onclick="handleAuth()">LOGIN</button>
+                <button id="logout-btn" class="gold-outline-btn hidden" onclick="handleLogout()">LOGOUT</button>
+                
+                <div class="bag-icon" onclick="toggleCart()">
                     <i class="fa-solid fa-bag-shopping"></i>
-                    <span id="cart-count">0</span>
+                    <span id="bag-count">0</span>
                 </div>
             </div>
         </nav>
 
-        <div class="hero-content">
-            <span class="eyebrow">ESTD 2026 | BHARAT</span>
-            <h1>CONCENTRATED EARTH.</h1>
-            <p class="hero-subtext">Premium Vegetable Powders</p>
+        <div class="hero-statement">
+            <span class="sub-head">BORN FROM THE INDIAN SOIL</span>
+            <h1>CONCENTRATED<br>EARTH.</h1>
+            <div class="scroll-hint"><span>THE HARVEST</span><div class="gold-line"></div></div>
         </div>
     </section>
 
-    <main class="shop-container" id="shop">
-        <div class="section-header">
-            <span>THE COLLECTION</span>
-            <div class="gold-line"></div>
-        </div>
-        <div class="product-grid" id="product-container"></div>
+    <main class="boutique">
+        <div id="product-grid" class="product-grid"></div>
     </main>
 
     <div id="cart-drawer" class="cart-drawer">
-        <div class="cart-header">
-            <h3>CHECKOUT</h3>
+        <div class="drawer-header">
+            <h3>YOUR SELECTION</h3>
             <i class="fa-solid fa-xmark" onclick="toggleCart()"></i>
         </div>
-        <div id="cart-items-list"></div>
-        <div class="cart-footer">
-            <div class="total-row"><span>TOTAL</span><span id="cart-total">₹0</span></div>
+        
+        <div id="cart-items" class="cart-items"></div>
 
-            <div id="secure-payment-zone" class="hidden">
-                <div class="qr-wrapper">
-                    <p>SCAN TO PAY</p>
-                    <div id="qr-container"></div>
+        <div class="drawer-footer">
+            <div class="bill-row"><span>SUBTOTAL</span><span id="cart-total">₹0</span></div>
+            
+            <div id="payment-gate" class="locked-gate hidden">
+                <div class="upi-box">
+                    <p>OFFICIAL UPI GATEWAY</p>
+                    <div id="qr-code"></div>
                 </div>
-                <a id="upi-intent-link" class="premium-pay-btn">PAY VIA UPI APP</a>
-                <button class="whatsapp-btn" onclick="syncOrderToWhatsApp()">SYNC TO WHATSAPP</button>
+                <a id="upi-link" class="gold-solid-btn">PAY WITH UPI APP</a>
+                <button class="whatsapp-sync-btn" onclick="sendToWhatsApp()">
+                    <i class="fa-brands fa-whatsapp"></i> SYNC TO WHATSAPP
+                </button>
             </div>
 
-            <div id="checkout-lock-msg" class="lock-notice">
-                <i class="fa-solid fa-lock"></i> Please Login & Enter Address
+            <div id="lock-notice" class="lock-notice">
+                <i class="fa-solid fa-lock"></i> Authorize & provide destination to unlock payment
             </div>
 
-            <div class="premium-input">
-                <input type="text" id="cust-address" required placeholder="SHIPPING ADDRESS" oninput="validateCheckout()">
+            <div class="address-field">
+                <input type="text" id="shipping-address" placeholder="SHIPPING ADDRESS" oninput="validateState()">
             </div>
         </div>
     </div>
