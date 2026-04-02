@@ -2,7 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// --- 1. CONFIG (Replace with your actual keys) ---
+// --- 1. YOUR ACTUAL CONFIG ---
 const firebaseConfig = {
   apiKey: "AIzaSyC-VwmmnGZBPGctP8bWp_ozBBTw45-eYds",
   authDomain: "powderroot26.firebaseapp.com",
@@ -12,6 +12,7 @@ const firebaseConfig = {
   appId: "1:776300724322:web:44b8908b6ffe1f6596513b",
   measurementId: "G-3GTKBEFJ2V"
 };
+
 const EMAILJS_PUBLIC_KEY = "lxY_3luPFEJNp2_dO";
 const UPI_ID = "8788855688-2@ybl"; 
 const WHATSAPP_NUM = "919096999662"; 
