@@ -11,7 +11,7 @@ body { background: var(--black); color: var(--white); font-family: 'Montserrat',
 
 .hidden { display: none !important; }
 
-/* --- TRUST BAR --- */
+/* --- LUXURY MOVING TRUST BAR --- */
 .trust-bar {
     background: var(--gold); color: var(--black); padding: 8px 0;
     font-size: 0.7rem; font-weight: 800; letter-spacing: 2px;
@@ -33,37 +33,44 @@ nav.scrolled { background: rgba(10,10,10,0.85); backdrop-filter: blur(15px); pad
 .brand-name { font-family: 'Cinzel'; font-size: 1.1rem; letter-spacing: 2px; }
 .brand-name span { color: var(--gold); }
 
-.social-handle a { color: var(--white); text-decoration: none; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
-.social-handle i { color: var(--gold); font-size: 1.1rem; }
+/* --- ROUNDED PROFILE UI --- */
+.user-chip { display: flex; align-items: center; gap: 12px; }
+#user-img { 
+    width: 38px; height: 38px; 
+    border-radius: 50%; 
+    border: 2px solid var(--gold); 
+    object-fit: cover;
+}
+#logout-btn { background: none; border: none; color: white; cursor: pointer; font-size: 1.1rem; }
+#logout-btn:hover { color: #ff4444; }
 
-/* --- BUTTONS & PROFILE --- */
+/* --- BUTTONS --- */
 .gold-solid-btn {
     background: var(--gold); color: var(--black); border: none; padding: 10px 25px;
     font-weight: 800; cursor: pointer; border-radius: 2px; transition: 0.3s;
 }
-.user-chip { display: flex; align-items: center; gap: 12px; }
-#user-img { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--gold); }
-#logout-btn { background: none; border: none; color: white; cursor: pointer; font-size: 1.1rem; }
 
-/* --- HERO --- */
+/* --- HERO & PRODUCT GRID --- */
 .hero { height: 100dvh; display: flex; align-items: center; justify-content: center; position: relative; }
 #bg-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(40%); z-index: -1; }
 .hero-statement h1 { font-family: 'Cinzel'; font-size: clamp(2.5rem, 8vw, 5rem); text-align: center; letter-spacing: 10px; }
 .hero-statement span { color: var(--gold); }
 
-/* --- PRODUCT GRID --- */
 .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; padding: 100px 6%; }
-.product-card { background: var(--charcoal); padding: 30px; border: 1px solid #222; text-align: center; transition: 0.4s; opacity: 0; }
-.product-card.reveal { opacity: 1; transform: translateY(0); animation: fadeInUp 0.8s forwards; }
+.product-card { background: var(--charcoal); padding: 30px; border: 1px solid #222; text-align: center; transition: 0.4s; }
 .product-card:hover { border-color: var(--gold); transform: translateY(-10px); }
 .product-card img { width: 100%; border-radius: 5px; margin-bottom: 20px; }
 
-/* --- CART & QR --- */
+/* --- PREMIUM QR & CART --- */
 .cart-drawer { position: fixed; right: -100%; top: 0; width: 100%; max-width: 450px; height: 100%; background: #080808; z-index: 4000; padding: 40px; transition: var(--transition); border-left: 1px solid var(--gold); overflow-y: auto; }
 .cart-drawer.active { right: 0; }
 .upi-card { background: white; padding: 20px; border-radius: 15px; text-align: center; margin: 20px 0; }
 .upi-card p { color: black; font-weight: 800; font-size: 0.7rem; margin-bottom: 10px; }
-#qr-code img { width: 180px; height: 180px; }
+#qr-code img { width: 180px; height: 180px; border-radius: 8px; }
+
+#shipping-address { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 15px; color: white; margin: 20px 0; outline: none; }
+#shipping-address:focus { border-color: var(--gold); }
+
 .whatsapp-btn { width: 100%; background: #25D366; color: white; padding: 18px; border: none; font-weight: 800; cursor: pointer; border-radius: 5px; margin-top: 15px; }
 
 /* --- TOAST --- */
@@ -71,5 +78,3 @@ nav.scrolled { background: rgba(10,10,10,0.85); backdrop-filter: blur(15px); pad
 #toast.show { visibility: visible; animation: fadeInUp 0.4s; }
 
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-@media (max-width: 768px) { .social-handle span { display: none; } .cart-drawer { max-width: 100%; } }
