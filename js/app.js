@@ -2,7 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// YOUR CONFIGURATION
+// --- 1. CONFIGURATION ---
 const firebaseConfig = {
   apiKey: "AIzaSyC-VwmmnGZBPGctP8bWp_ozBBTw45-eYds",
   authDomain: "powderroot26.firebaseapp.com",
@@ -17,7 +17,7 @@ const EMAILJS_KEY = "lxY_3luPFEJNp2_dO";
 const UPI_ID = "8788855688-2@ybl";
 const WHATSAPP_NUM = "919096999662";
 
-// Initialize Services
+// --- 2. INITIALIZATION ---
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -31,28 +31,64 @@ const products = [
     { id: 3, name: "RAW GINGER POWDER", price: 179, img: "assets/images/ginger.jpg" }
 ];
 
+// --- 3. CART LOGIC (With Add/Subtract) ---
 window.toggleCart = () => document.getElementById('cart-drawer').classList.toggle('active');
 
 window.addToCart = (id) => {
     const p = products.find(x => x.id === id);
-    const ex = cart.find(x => x.id === id);
-    ex ? ex.qty++ : cart.push({...p, qty: 1});
+    const existing = cart.find(x => x.id === id);
+    if (existing) {
+        existing.qty++;
+    } else {
+        cart.push({...p, qty: 1});
+    }
     updateUI();
     showToast("Added to Bag");
 };
 
+window.changeQty = (id, delta) => {
+    const item = cart.find(x => x.id === id);
+    if (!item) return;
+
+    item.qty += delta;
+
+    // Remove item if quantity drops to 0
+    if (item.qty <= 0) {
+        cart = cart.filter(x => x.id !== id);
+    }
+    updateUI();
+};
+
 function updateUI() {
     const list = document.getElementById('cart-items');
-    let total = 0; list.innerHTML = '';
+    let total = 0; 
+    list.innerHTML = '';
+
     cart.forEach(item => {
-        total += (item.price * item.qty);
-        list.innerHTML += `<div class="bill-row" style="margin-bottom:10px;"><span>${item.name} (x${item.qty})</span><span>₹${item.price * item.qty}</span></div>`;
+        const itemTotal = item.price * item.qty;
+        total += itemTotal;
+        list.innerHTML += `
+            <div class="cart-item-row" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid #222; padding-bottom:15px;">
+                <div style="flex:1;">
+                    <p style="font-weight:700; font-size:0.85rem; color:white; margin-bottom:4px;">${item.name}</p>
+                    <p style="color:var(--gold); font-size:0.8rem;">₹${item.price}</p>
+                </div>
+                <div style="display:flex; align-items:center; gap:12px; margin: 0 15px;">
+                    <button onclick="changeQty(${item.id}, -1)" style="background:#1a1a1a; color:white; border:1px solid var(--gold); width:28px; height:28px; cursor:pointer; font-weight:bold;">-</button>
+                    <span style="font-weight:800; min-width:15px; text-align:center;">${item.qty}</span>
+                    <button onclick="changeQty(${item.id}, 1)" style="background:#1a1a1a; color:white; border:1px solid var(--gold); width:28px; height:28px; cursor:pointer; font-weight:bold;">+</button>
+                </div>
+                <div style="font-weight:700; width:60px; text-align:right;">₹${itemTotal}</div>
+            </div>
+        `;
     });
+
     document.getElementById('cart-total').innerText = `₹${total}`;
     document.getElementById('bag-count').innerText = cart.reduce((a, b) => a + b.qty, 0);
     validateState();
 }
 
+// --- 4. CHECKOUT & SECURITY GATE ---
 window.validateState = () => {
     const user = auth.currentUser;
     const addr = document.getElementById('shipping-address').value.trim();
@@ -61,13 +97,16 @@ window.validateState = () => {
     const qr = document.getElementById('qr-code');
 
     if (user && addr.length > 10 && cart.length > 0) {
-        gate.classList.remove('hidden'); notice.classList.add('hidden');
+        gate.classList.remove('hidden'); 
+        notice.classList.add('hidden');
+        
         const total = cart.reduce((a, b) => a + (b.price * b.qty), 0);
-        // Clean URL for QR Generation
-        const qrUrl = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=upi://pay?pa=${UPI_ID}%26pn=POWDER%20ROOT%26am=${total}%26cu=INR`;
-        qr.innerHTML = `<img src="${qrUrl}" alt="Payment QR">`;
+        // Corrected URL encoding for UPI deep link
+        const qrUrl = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=upi://pay?pa=${UPI_ID}%26pn=POWDER%20ROOT%26am=${total}%26cu=INR%26tn=Order`;
+        qr.innerHTML = `<img src="${qrUrl}" alt="Scan to Pay">`;
     } else {
-        gate.classList.add('hidden'); notice.classList.remove('hidden');
+        gate.classList.add('hidden'); 
+        notice.classList.remove('hidden');
     }
 };
 
@@ -78,23 +117,18 @@ window.sendToWhatsApp = async () => {
     const items = cart.map(i => `${i.name} x${i.qty}`).join(", ");
 
     try {
-        // Log to Firebase
         await addDoc(collection(db, "orders"), { 
-            client: user.displayName, 
+            name: user.displayName, 
             items, total, addr, 
             timestamp: serverTimestamp() 
         });
-        
-        // Sync with WhatsApp
-        const msg = `🛒 *NEW ORDER: POWDER ROOT*\n👤 *Client:* ${user.displayName}\n📦 *Items:* ${items}\n💰 *Total:* ₹${total}\n📍 *Shipping:* ${addr}\n\n*Please send payment screenshot below.*`;
+        const msg = `🛒 *ORDER FROM POWDER ROOT*\n👤 *Customer:* ${user.displayName}\n📦 *Items:* ${items}\n💰 *Total:* ₹${total}\n📍 *Addr:* ${addr}`;
         window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`, '_blank');
-        
         cart = []; updateUI(); toggleCart();
-        showToast("Order Logged Successfully");
-    } catch (e) { alert("Error: Check Firebase Permissions."); }
+    } catch (e) { alert("Sync Error: " + e.message); }
 };
 
-// Authentication Controls
+// --- 5. AUTHENTICATION ---
 window.handleAuth = () => signInWithPopup(auth, provider);
 window.handleLogout = () => signOut(auth).then(() => location.reload());
 
@@ -107,13 +141,22 @@ onAuthStateChanged(auth, (user) => {
     validateState();
 });
 
-// Build Product Cards
+// --- 6. UI RENDER ---
 const grid = document.getElementById('product-grid');
 products.forEach(p => {
     const card = document.createElement('div');
-    card.className = 'product-card';
-    card.innerHTML = `<img src="${p.img}"><h3>${p.name}</h3><p style="color:var(--gold); margin:10px 0;">₹${p.price}</p><button class="gold-solid-btn" style="width:100%" onclick="addToCart(${p.id})">ADD TO BAG</button>`;
+    card.className = 'product-card reveal';
+    card.innerHTML = `
+        <img src="${p.img}">
+        <h3>${p.name}</h3>
+        <p style="color:var(--gold); margin:10px 0; font-weight:800;">₹${p.price}</p>
+        <button class="gold-solid-btn" style="width:100%" onclick="addToCart(${p.id})">ADD TO BAG</button>
+    `;
     grid.appendChild(card);
 });
 
-function showToast(m) { const t = document.getElementById('toast'); t.innerText = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
+function showToast(m) { 
+    const t = document.getElementById('toast'); 
+    t.innerText = m; t.classList.add('show'); 
+    setTimeout(() => t.classList.remove('show'), 3000); 
+}
