@@ -4,15 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Powder Root | Artisanal Spice Boutique</title>
-    
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;700;800&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <meta property="og:title" content="Powder Root | Premium Spices">
-    <meta property="og:description" content="Artisanal Garlic, Onion, and Ginger powders for the modern kitchen.">
-    <meta property="og:image" content="assets/images/social-preview.jpg">
-
     <link rel="stylesheet" href="css/style.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
@@ -20,9 +13,8 @@
 
     <div class="trust-bar">
         <div class="scrolling-content">
-            <span>PREMIUM ARTISANAL HARVEST 2026</span>
-            <span>SHIPPING NATIONWIDE</span>
-            <span>PURE • RAW • POTENT</span>
+            <span>PREMIUM ARTISANAL HARVEST 2026 — SHIPPING NATIONWIDE — PURE • RAW • POTENT — 100% ORGANIC SOURCED — </span>
+            <span>PREMIUM ARTISANAL HARVEST 2026 — SHIPPING NATIONWIDE — PURE • RAW • POTENT — 100% ORGANIC SOURCED — </span>
         </div>
     </div>
 
@@ -39,7 +31,7 @@
         </div>
 
         <div class="nav-actions">
-            <button id="auth-btn" class="gold-outline-btn" onclick="handleAuth()">LOGIN</button>
+            <button id="auth-btn" class="gold-solid-btn" onclick="handleAuth()">LOGIN</button>
             <div id="user-profile" class="user-chip hidden">
                 <img id="user-img" src="" alt="User">
                 <button id="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i></button>
@@ -52,55 +44,47 @@
     </nav>
 
     <section class="hero">
-        <div class="video-container">
-            <video autoplay muted loop playsinline id="bg-video">
-                <source src="assets/video/bg.mp4" type="video/mp4">
-            </video>
-            <div class="video-overlay"></div>
-        </div>
+        <video autoplay muted loop playsinline id="bg-video">
+            <source src="assets/video/bg.mp4" type="video/mp4">
+        </video>
         <div class="hero-statement">
             <h1>ELEVATE EVERY <br><span>FLAVOR</span></h1>
             <p class="scroll-hint">Discover the Collection</p>
         </div>
     </section>
 
-    <section class="boutique">
-        <div id="product-grid" class="product-grid"></div>
-    </section>
+    <div id="product-grid" class="product-grid"></div>
 
     <div id="cart-drawer" class="cart-drawer">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:40px;">
-            <h2 style="font-family:'Cinzel';">YOUR BAG</h2>
-            <i class="fa-solid fa-xmark" style="cursor:pointer; font-size:1.5rem;" onclick="toggleCart()"></i>
+        <div class="cart-header">
+            <h2>YOUR BAG</h2>
+            <i class="fa-solid fa-xmark" onclick="toggleCart()"></i>
         </div>
 
         <div id="cart-items"></div>
 
-        <div class="bill-summary">
-            <div class="bill-row"><span>SUBTOTAL</span><span id="cart-total">₹0</span></div>
+        <div class="checkout-area">
+            <div class="bill-row"><span>TOTAL</span><span id="cart-total">₹0</span></div>
             
-            <div class="address-field">
-                <input type="text" id="shipping-address" oninput="validateState()" placeholder="Shipping Address / पत्ता टाका">
-            </div>
+            <input type="text" id="shipping-address" oninput="validateState()" placeholder="Enter Shipping Address (10+ characters)">
 
             <div id="lock-notice" class="lock-notice">
-                Login & Add Address to Unlock / पेमेंटसाठी पत्ता टाका
+                <i class="fa-solid fa-lock"></i> Login & Enter Address to Unlock Payment
             </div>
 
             <div id="payment-gate" class="hidden">
-                <div class="upi-box">
-                    <p style="font-size:0.7rem; margin-bottom:10px; font-weight:700;">SCAN TO PAY VIA UPI</p>
+                <div class="upi-card">
+                    <p>SCAN TO PAY VIA UPI</p>
                     <div id="qr-code"></div>
                 </div>
-                <button class="whatsapp-sync-btn" onclick="sendToWhatsApp()">
-                    Confirm & Sync Order
+                <button class="whatsapp-btn" onclick="sendToWhatsApp()">
+                    <i class="fa-brands fa-whatsapp"></i> Confirm & Sync Order
                 </button>
             </div>
         </div>
     </div>
 
     <div id="toast"></div>
-
     <script type="module" src="js/app.js"></script>
 </body>
 </html>
