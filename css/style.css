@@ -126,3 +126,64 @@ nav.scrolled {
     .social-handle a { font-size: 0; }
     .social-handle a i { font-size: 1.5rem; margin-right: 15px; }
     }
+/* --- TOP SCROLLING TRUST BAR --- */
+.trust-bar {
+    background: var(--gold);
+    color: var(--black);
+    padding: 8px 0;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    overflow: hidden; /* Hides text outside the screen */
+    white-space: nowrap; /* Keeps text on one line */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2500;
+}
+
+.scrolling-content {
+    display: inline-block;
+    padding-left: 100%; /* Starts the text off-screen */
+    animation: scrollText 20s linear infinite;
+}
+
+.scrolling-content span {
+    margin-right: 50px; /* Space between the phrases */
+}
+
+@keyframes scrollText {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+/* --- LOGGED-IN USER PROFILE --- */
+.user-chip {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Adds space between the photo and the logout button */
+}
+
+#user-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%; /* This makes it a perfect circle */
+    object-fit: cover;
+    border: 2px solid var(--gold); /* Premium gold border */
+}
+
+#logout-btn {
+    background: transparent;
+    border: none;
+    color: var(--white);
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#logout-btn:hover {
+    color: #ff4444; /* Turns red on hover to indicate logout */
+    transform: scale(1.1); /* Slight zoom effect */
+}
