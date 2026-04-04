@@ -1,189 +1,75 @@
 :root {
     --gold: #C5A059;
-    --gold-gradient: linear-gradient(135deg, #C5A059 0%, #F1D394 50%, #947231 100%);
     --black: #0A0A0A;
     --charcoal: #141414;
     --white: #F2F2F2;
-    --transition: 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+    --transition: 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 body { background: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
 
-/* --- UTILITIES --- */
 .hidden { display: none !important; }
 
-/* --- ANIMATIONS --- */
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); } 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); } }
+/* --- TRUST BAR --- */
+.trust-bar {
+    background: var(--gold); color: var(--black); padding: 8px 0;
+    font-size: 0.7rem; font-weight: 800; letter-spacing: 2px;
+    position: fixed; top: 0; width: 100%; z-index: 3000; overflow: hidden;
+}
+.scrolling-content { display: inline-block; white-space: nowrap; animation: scroll 25s linear infinite; }
+@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-/* --- NAV GLASSMORPHISM & LOGO --- */
+/* --- NAVIGATION --- */
 nav {
-    position: fixed; top: 35px; width: 100%; padding: 15px 6%;
+    position: fixed; top: 35px; width: 100%; padding: 20px 6%;
     display: flex; justify-content: space-between; align-items: center;
-    z-index: 2000; transition: var(--transition); background: transparent;
+    z-index: 2000; transition: var(--transition);
 }
+nav.scrolled { background: rgba(10,10,10,0.85); backdrop-filter: blur(15px); padding: 12px 6%; }
 
-nav.scrolled {
-    background: rgba(10, 10, 10, 0.8);
-    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-    padding: 10px 6%; border-bottom: 1px solid rgba(197, 160, 89, 0.2);
-}
-
-.premium-logo {
-    height: 45px; 
-    width: auto;
-    object-fit: contain;
-    margin-right: 15px; 
-    border-radius: 4px; 
-}
-
+.premium-logo { height: 40px; border-radius: 4px; margin-right: 12px; }
 .brand-identity { display: flex; align-items: center; }
-.brand-name { font-family: 'Cinzel'; font-size: 1.2rem; font-weight: 700; letter-spacing: 2px; }
+.brand-name { font-family: 'Cinzel'; font-size: 1.1rem; letter-spacing: 2px; }
 .brand-name span { color: var(--gold); }
-.nav-actions { display: flex; align-items: center; gap: 20px; }
 
-/* --- INSTAGRAM HANDLE --- */
-.social-handle { display: flex; align-items: center; }
-.social-handle a {
-    color: var(--white); text-decoration: none; font-size: 0.9rem;
-    font-weight: 600; letter-spacing: 1px; transition: 0.3s;
-    display: flex; align-items: center; gap: 8px;
-}
-.social-handle a i { color: var(--gold); font-size: 1.2rem; }
-.social-handle a:hover { color: var(--gold); }
+.social-handle a { color: var(--white); text-decoration: none; font-size: 0.8rem; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.social-handle i { color: var(--gold); font-size: 1.1rem; }
 
-/* --- BUTTONS --- */
-.gold-outline-btn {
-    background: var(--gold); 
-    color: var(--black); 
-    border: none;
-    padding: 12px 28px;
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 800;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: 2px;
+/* --- BUTTONS & PROFILE --- */
+.gold-solid-btn {
+    background: var(--gold); color: var(--black); border: none; padding: 10px 25px;
+    font-weight: 800; cursor: pointer; border-radius: 2px; transition: 0.3s;
 }
-.gold-outline-btn:hover {
-    background: var(--white); 
-    transform: translateY(-2px); 
-    box-shadow: 0 5px 15px rgba(197, 160, 89, 0.3); 
-}
+.user-chip { display: flex; align-items: center; gap: 12px; }
+#user-img { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--gold); }
+#logout-btn { background: none; border: none; color: white; cursor: pointer; font-size: 1.1rem; }
 
 /* --- HERO --- */
-.hero { height: 100dvh; position: relative; display: flex; align-items: center; justify-content: center; }
-#bg-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(35%); z-index: -2; }
-.hero-statement h1 { font-family: 'Cinzel'; font-size: clamp(2rem, 8vw, 5rem); text-align: center; letter-spacing: 8px; animation: fadeInUp 1.2s ease; }
-.hero-statement h1 span { color: var(--gold); }
+.hero { height: 100dvh; display: flex; align-items: center; justify-content: center; position: relative; }
+#bg-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(40%); z-index: -1; }
+.hero-statement h1 { font-family: 'Cinzel'; font-size: clamp(2.5rem, 8vw, 5rem); text-align: center; letter-spacing: 10px; }
+.hero-statement span { color: var(--gold); }
 
-/* --- PRODUCT CARDS --- */
-.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; padding: 100px 6%; }
-.product-card { 
-    background: var(--charcoal); padding: 30px; text-align: center; 
-    border: 1px solid rgba(255,255,255,0.05); transition: 0.4s;
-    opacity: 0; 
-}
-.product-card.reveal { opacity: 1; animation: fadeInUp 0.8s ease forwards; }
+/* --- PRODUCT GRID --- */
+.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; padding: 100px 6%; }
+.product-card { background: var(--charcoal); padding: 30px; border: 1px solid #222; text-align: center; transition: 0.4s; opacity: 0; }
+.product-card.reveal { opacity: 1; transform: translateY(0); animation: fadeInUp 0.8s forwards; }
 .product-card:hover { border-color: var(--gold); transform: translateY(-10px); }
-.product-card img { width: 100%; border-radius: 4px; margin-bottom: 20px; }
+.product-card img { width: 100%; border-radius: 5px; margin-bottom: 20px; }
 
-/* --- CART DRAWER --- */
-.cart-drawer {
-    position: fixed; right: -100%; top: 0; width: 100%; max-width: 450px; height: 100dvh;
-    background: #080808; z-index: 3000; padding: 40px; transition: var(--transition);
-    border-left: 1px solid var(--gold); overflow-y: auto;
-}
+/* --- CART & QR --- */
+.cart-drawer { position: fixed; right: -100%; top: 0; width: 100%; max-width: 450px; height: 100%; background: #080808; z-index: 4000; padding: 40px; transition: var(--transition); border-left: 1px solid var(--gold); overflow-y: auto; }
 .cart-drawer.active { right: 0; }
-
-.qty-controls { display: flex; align-items: center; gap: 15px; border: 1px solid #333; padding: 5px 15px; }
-.qty-btn { background: none; border: none; color: var(--gold); font-size: 1.2rem; cursor: pointer; }
-
-.address-field input { width: 100%; padding: 15px; background: #1a1a1a; border: 1px solid #333; color: white; margin-bottom: 20px; }
-.lock-notice { color: #ff4444; font-size: 0.8rem; text-align: center; font-weight: bold; }
-.bill-row { display: flex; justify-content: space-between; font-weight: bold; margin: 20px 0; border-top: 1px solid #333; padding-top: 20px; }
-
-/* --- CHECKOUT --- */
-.whatsapp-sync-btn {
-    width: 100%; background: #25D366; color: white; padding: 18px; border: none;
-    font-weight: 800; cursor: pointer; text-transform: uppercase; margin-top: 20px;
-    animation: pulse 2s infinite;
-}
+.upi-card { background: white; padding: 20px; border-radius: 15px; text-align: center; margin: 20px 0; }
+.upi-card p { color: black; font-weight: 800; font-size: 0.7rem; margin-bottom: 10px; }
+#qr-code img { width: 180px; height: 180px; }
+.whatsapp-btn { width: 100%; background: #25D366; color: white; padding: 18px; border: none; font-weight: 800; cursor: pointer; border-radius: 5px; margin-top: 15px; }
 
 /* --- TOAST --- */
-#toast {
-    visibility: hidden; min-width: 280px; background: var(--gold); color: #000;
-    text-align: center; padding: 16px; position: fixed; bottom: 30px; left: 50%;
-    transform: translateX(-50%); z-index: 5000; font-weight: 700; font-size: 0.8rem;
-}
+#toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--gold); color: black; padding: 15px 30px; font-weight: 700; z-index: 9999; }
 #toast.show { visibility: visible; animation: fadeInUp 0.4s; }
 
-/* Mobile Viewport Fix */
-@media (max-width: 768px) {
-    .cart-drawer { max-width: 100%; padding: 20px; }
-    .hero-statement h1 { font-size: 2.2rem; }
-    .social-handle a { font-size: 0; }
-    .social-handle a i { font-size: 1.5rem; margin-right: 15px; }
-    }
-/* --- TOP SCROLLING TRUST BAR --- */
-.trust-bar {
-    background: var(--gold);
-    color: var(--black);
-    padding: 8px 0;
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-    overflow: hidden; /* Hides text outside the screen */
-    white-space: nowrap; /* Keeps text on one line */
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 2500;
-}
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
-.scrolling-content {
-    display: inline-block;
-    padding-left: 100%; /* Starts the text off-screen */
-    animation: scrollText 20s linear infinite;
-}
-
-.scrolling-content span {
-    margin-right: 50px; /* Space between the phrases */
-}
-
-@keyframes scrollText {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-100%); }
-}
-/* --- LOGGED-IN USER PROFILE --- */
-.user-chip {
-    display: flex;
-    align-items: center;
-    gap: 15px; /* Adds space between the photo and the logout button */
-}
-
-#user-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%; /* This makes it a perfect circle */
-    object-fit: cover;
-    border: 2px solid var(--gold); /* Premium gold border */
-}
-
-#logout-btn {
-    background: transparent;
-    border: none;
-    color: var(--white);
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#logout-btn:hover {
-    color: #ff4444; /* Turns red on hover to indicate logout */
-    transform: scale(1.1); /* Slight zoom effect */
-}
+@media (max-width: 768px) { .social-handle span { display: none; } .cart-drawer { max-width: 100%; } }
