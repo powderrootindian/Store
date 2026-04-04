@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Powder Root | Artisanal Spice Boutique</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;700;800&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <link rel="stylesheet" href="css/style.css">
+
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
@@ -25,17 +29,21 @@
         </div>
 
         <div class="social-handle">
-            <a href="https://instagram.com/powderroot" target="_blank">
+            <a href="https://www.instagram.com/powderoots?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">
                 <i class="fa-brands fa-instagram"></i> @powderroot
             </a>
         </div>
 
         <div class="nav-actions">
             <button id="auth-btn" class="gold-solid-btn" onclick="handleAuth()">LOGIN</button>
+            
             <div id="user-profile" class="user-chip hidden">
                 <img id="user-img" src="" alt="User">
-                <button id="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i></button>
+                <button id="logout-btn" onclick="handleLogout()">
+                    <i class="fa-solid fa-power-off"></i>
+                </button>
             </div>
+
             <div class="bag-icon" onclick="toggleCart()">
                 <i class="fa-solid fa-bag-shopping"></i>
                 <span id="bag-count">0</span>
@@ -58,25 +66,27 @@
     <div id="cart-drawer" class="cart-drawer">
         <div class="cart-header">
             <h2>YOUR BAG</h2>
-            <i class="fa-solid fa-xmark" onclick="toggleCart()"></i>
+            <i class="fa-solid fa-xmark" onclick="toggleCart()" style="cursor:pointer;"></i>
         </div>
 
         <div id="cart-items"></div>
 
         <div class="checkout-area">
-            <div class="bill-row"><span>TOTAL</span><span id="cart-total">₹0</span></div>
+            <div class="bill-row">
+                <span>SUBTOTAL</span>
+                <span id="cart-total">₹0</span>
+            </div>
             
-            <input type="text" id="shipping-address" oninput="validateState()" placeholder="Enter Shipping Address (10+ characters)">
+            <input type="text" id="shipping-address" oninput="validateState()" placeholder="Enter Shipping Address (PUNE, MAHARASHTRA...)">
 
             <div id="lock-notice" class="lock-notice">
-                <i class="fa-solid fa-lock"></i> Login & Enter Address to Unlock Payment
+                <i class="fa-solid fa-lock"></i> Login & Enter Full Address to Unlock Payment
             </div>
 
             <div id="payment-gate" class="hidden">
                 <div class="upi-card">
                     <p>SCAN TO PAY VIA UPI</p>
-                    <div id="qr-code"></div>
-                </div>
+                    <div id="qr-code"></div> </div>
                 <button class="whatsapp-btn" onclick="sendToWhatsApp()">
                     <i class="fa-brands fa-whatsapp"></i> Confirm & Sync Order
                 </button>
@@ -85,6 +95,7 @@
     </div>
 
     <div id="toast"></div>
+
     <script type="module" src="js/app.js"></script>
 </body>
 </html>
