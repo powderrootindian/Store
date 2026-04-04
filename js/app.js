@@ -2,6 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+// YOUR CONFIGURATION
 const firebaseConfig = {
   apiKey: "AIzaSyC-VwmmnGZBPGctP8bWp_ozBBTw45-eYds",
   authDomain: "powderroot26.firebaseapp.com",
@@ -14,8 +15,9 @@ const firebaseConfig = {
 
 const EMAILJS_KEY = "lxY_3luPFEJNp2_dO";
 const UPI_ID = "8788855688-2@ybl";
-const WHATSAPP = "919096999662";
+const WHATSAPP_NUM = "919096999662";
 
+// Initialize Services
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -44,7 +46,7 @@ function updateUI() {
     let total = 0; list.innerHTML = '';
     cart.forEach(item => {
         total += (item.price * item.qty);
-        list.innerHTML += `<div class="bill-row"><span>${item.name} (x${item.qty})</span><span>₹${item.price * item.qty}</span></div>`;
+        list.innerHTML += `<div class="bill-row" style="margin-bottom:10px;"><span>${item.name} (x${item.qty})</span><span>₹${item.price * item.qty}</span></div>`;
     });
     document.getElementById('cart-total').innerText = `₹${total}`;
     document.getElementById('bag-count').innerText = cart.reduce((a, b) => a + b.qty, 0);
@@ -61,8 +63,9 @@ window.validateState = () => {
     if (user && addr.length > 10 && cart.length > 0) {
         gate.classList.remove('hidden'); notice.classList.add('hidden');
         const total = cart.reduce((a, b) => a + (b.price * b.qty), 0);
-        const url = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=upi://pay?pa=${UPI_ID}%26pn=POWDER%20ROOT%26am=${total}%26cu=INR`;
-        qr.innerHTML = `<img src="${url}" alt="Scan">`;
+        // Clean URL for QR Generation
+        const qrUrl = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=upi://pay?pa=${UPI_ID}%26pn=POWDER%20ROOT%26am=${total}%26cu=INR`;
+        qr.innerHTML = `<img src="${qrUrl}" alt="Payment QR">`;
     } else {
         gate.classList.add('hidden'); notice.classList.remove('hidden');
     }
@@ -75,13 +78,23 @@ window.sendToWhatsApp = async () => {
     const items = cart.map(i => `${i.name} x${i.qty}`).join(", ");
 
     try {
-        await addDoc(collection(db, "orders"), { uid: user.uid, items, total, addr, timestamp: serverTimestamp() });
-        const msg = `🛒 *ORDER*: ${items}\n💰 *TOTAL*: ₹${total}\n📍 *ADDR*: ${addr}\n\n*Please send payment screenshot.*`;
-        window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`, '_blank');
+        // Log to Firebase
+        await addDoc(collection(db, "orders"), { 
+            client: user.displayName, 
+            items, total, addr, 
+            timestamp: serverTimestamp() 
+        });
+        
+        // Sync with WhatsApp
+        const msg = `🛒 *NEW ORDER: POWDER ROOT*\n👤 *Client:* ${user.displayName}\n📦 *Items:* ${items}\n💰 *Total:* ₹${total}\n📍 *Shipping:* ${addr}\n\n*Please send payment screenshot below.*`;
+        window.open(`https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`, '_blank');
+        
         cart = []; updateUI(); toggleCart();
-    } catch (e) { alert("Error saving order."); }
+        showToast("Order Logged Successfully");
+    } catch (e) { alert("Error: Check Firebase Permissions."); }
 };
 
+// Authentication Controls
 window.handleAuth = () => signInWithPopup(auth, provider);
 window.handleLogout = () => signOut(auth).then(() => location.reload());
 
@@ -94,15 +107,11 @@ onAuthStateChanged(auth, (user) => {
     validateState();
 });
 
-window.addEventListener('scroll', () => {
-    const nav = document.querySelector('nav');
-    window.scrollY > 50 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
-});
-
+// Build Product Cards
 const grid = document.getElementById('product-grid');
 products.forEach(p => {
     const card = document.createElement('div');
-    card.className = 'product-card reveal';
+    card.className = 'product-card';
     card.innerHTML = `<img src="${p.img}"><h3>${p.name}</h3><p style="color:var(--gold); margin:10px 0;">₹${p.price}</p><button class="gold-solid-btn" style="width:100%" onclick="addToCart(${p.id})">ADD TO BAG</button>`;
     grid.appendChild(card);
 });
