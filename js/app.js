@@ -94,22 +94,28 @@ window.validateState = () => {
     const addr = document.getElementById('shipping-address').value.trim();
     const gate = document.getElementById('payment-gate');
     const notice = document.getElementById('lock-notice');
-    const qr = document.getElementById('qr-code');
+    const qrContainer = document.getElementById('qr-code');
 
     if (user && addr.length > 10 && cart.length > 0) {
-        gate.classList.remove('hidden'); 
+        gate.classList.remove('hidden');
         notice.classList.add('hidden');
         
         const total = cart.reduce((a, b) => a + (b.price * b.qty), 0);
-        // Corrected URL encoding for UPI deep link
-        const qrUrl = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=upi://pay?pa=${UPI_ID}%26pn=POWDER%20ROOT%26am=${total}%26cu=INR%26tn=Order`;
-        qr.innerHTML = `<img src="${qrUrl}" alt="Scan to Pay">`;
+        
+        // FIXED: Construction of the UPI string for Google Charts
+        const pa = "8788855688-2@ybl";
+        const pn = "POWDER ROOT";
+        const upiData = `upi://pay?pa=${pa}&pn=${pn}&am=${total}&cu=INR`;
+        
+        // Use a 300x300 size for better scanability on mobile
+        const qrUrl = `https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=${encodeURIComponent(upiData)}&choe=UTF-8`;
+        
+        qrContainer.innerHTML = `<img src="${qrUrl}" alt="Scan to Pay" style="display:block; margin:auto; max-width:100%; height:auto;">`;
     } else {
-        gate.classList.add('hidden'); 
+        gate.classList.add('hidden');
         notice.classList.remove('hidden');
     }
 };
-
 window.sendToWhatsApp = async () => {
     const user = auth.currentUser;
     const addr = document.getElementById('shipping-address').value;
