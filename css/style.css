@@ -3,18 +3,17 @@
     --black: #0A0A0A;
     --charcoal: #141414;
     --white: #F2F2F2;
-    --transition: 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+* { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
 body { background: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
 
 .hidden { display: none !important; }
 
-/* --- LUXURY MOVING TRUST BAR --- */
+/* --- TRUST BAR --- */
 .trust-bar {
     background: var(--gold); color: var(--black); padding: 8px 0;
-    font-size: 0.7rem; font-weight: 800; letter-spacing: 2px;
+    font-size: 0.6rem; font-weight: 800; letter-spacing: 2px;
     position: fixed; top: 0; width: 100%; z-index: 3000; overflow: hidden;
 }
 .scrolling-content { display: inline-block; white-space: nowrap; animation: scroll 25s linear infinite; }
@@ -24,72 +23,44 @@ body { background: var(--black); color: var(--white); font-family: 'Montserrat',
 nav {
     position: fixed; top: 35px; width: 100%; padding: 20px 6%;
     display: flex; justify-content: space-between; align-items: center;
-    z-index: 2000; transition: var(--transition);
+    z-index: 2000; transition: 0.4s;
 }
-nav.scrolled { background: rgba(10,10,10,0.85); backdrop-filter: blur(15px); padding: 12px 6%; }
+nav.scrolled { background: rgba(10,10,10,0.9); backdrop-filter: blur(10px); padding: 12px 6%; }
 
-.premium-logo { height: 40px; border-radius: 4px; margin-right: 12px; }
 .brand-identity { display: flex; align-items: center; }
+.premium-logo { height: 35px; border-radius: 4px; margin-right: 10px; }
 .brand-name { font-family: 'Cinzel'; font-size: 1.1rem; letter-spacing: 2px; }
 .brand-name span { color: var(--gold); }
 
-/* --- ROUNDED PROFILE UI --- */
-.user-chip { display: flex; align-items: center; gap: 12px; }
-#user-img { 
-    width: 38px; height: 38px; 
-    border-radius: 50%; 
-    border: 2px solid var(--gold); 
-    object-fit: cover;
-}
-#logout-btn { background: none; border: none; color: white; cursor: pointer; font-size: 1.1rem; }
-#logout-btn:hover { color: #ff4444; }
-
-/* --- BUTTONS --- */
-.gold-solid-btn {
-    background: var(--gold); color: var(--black); border: none; padding: 10px 25px;
-    font-weight: 800; cursor: pointer; border-radius: 2px; transition: 0.3s;
-}
-
-/* --- HERO & PRODUCT GRID --- */
-.hero { height: 100dvh; display: flex; align-items: center; justify-content: center; position: relative; }
-#bg-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(40%); z-index: -1; }
-.hero-statement h1 { font-family: 'Cinzel'; font-size: clamp(2.5rem, 8vw, 5rem); text-align: center; letter-spacing: 10px; }
-.hero-statement span { color: var(--gold); }
-
-.product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; padding: 100px 6%; }
-.product-card { background: var(--charcoal); padding: 30px; border: 1px solid #222; text-align: center; transition: 0.4s; }
-.product-card:hover { border-color: var(--gold); transform: translateY(-10px); }
-.product-card img { width: 100%; border-radius: 5px; margin-bottom: 20px; }
-
-/* --- PREMIUM QR & CART --- */
-.cart-drawer { position: fixed; right: -100%; top: 0; width: 100%; max-width: 450px; height: 100%; background: #080808; z-index: 4000; padding: 40px; transition: var(--transition); border-left: 1px solid var(--gold); overflow-y: auto; }
-.cart-drawer.active { right: 0; }
-.upi-card { background: white; padding: 20px; border-radius: 15px; text-align: center; margin: 20px 0; }
-.upi-card p { color: black; font-weight: 800; font-size: 0.7rem; margin-bottom: 10px; }
-#qr-code img { width: 180px; height: 180px; border-radius: 8px; }
-
-#shipping-address { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 15px; color: white; margin: 20px 0; outline: none; }
-#shipping-address:focus { border-color: var(--gold); }
-
-.whatsapp-btn { width: 100%; background: #25D366; color: white; padding: 18px; border: none; font-weight: 800; cursor: pointer; border-radius: 5px; margin-top: 15px; }
-
-/* --- TOAST --- */
-#toast { visibility: hidden; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--gold); color: black; padding: 15px 30px; font-weight: 700; z-index: 9999; }
-#toast.show { visibility: visible; animation: fadeInUp 0.4s; }
-
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-/* --- FIXED INSTAGRAM COLOR --- */
-.social-handle a, 
-.social-handle a:visited, 
-.social-handle a:active {
-    color: var(--white) !important; /* Forces it to stay white, never purple */
+/* FIXED: Instagram Handle (No Purple) */
+.social-handle a, .social-handle a:visited, .social-handle a:active {
+    color: var(--white) !important;
     text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: 0.3s;
+    font-size: 0.8rem;
+    display: flex; gap: 8px; align-items: center;
+}
+.social-handle a:hover { color: var(--gold) !important; }
+
+/* MOBILE RESPONSIVENESS */
+@media (max-width: 768px) {
+    .social-handle span { display: none; } 
+    .brand-name { font-size: 0.85rem; }
+    nav { padding: 15px 4%; }
 }
 
-.social-handle a:hover {
-    color: var(--gold) !important; /* Turns gold when you hover */
+/* QR CARD DESIGN */
+.upi-card {
+    background: white; padding: 20px; border-radius: 12px;
+    text-align: center; margin: 20px 0; border: 4px solid var(--gold);
 }
+.upi-card p { color: black; font-weight: 900; font-size: 0.7rem; margin-bottom: 10px; }
+#qr-code img { width: 200px; height: 200px; display: block; margin: auto; }
+
+/* CART & UI */
+.cart-drawer { position: fixed; right: -100%; top: 0; width: 100%; max-width: 450px; height: 100%; background: #080808; z-index: 4000; padding: 30px; transition: 0.5s; border-left: 1px solid var(--gold); overflow-y: auto; }
+.cart-drawer.active { right: 0; }
+.scroll-hint { color: var(--white); text-decoration: none; font-size: 0.7rem; opacity: 0.6; letter-spacing: 3px; margin-top: 20px; display: block; text-align: center; }
+.scroll-hint:hover { opacity: 1; color: var(--gold); }
+#shipping-address { width: 100%; background: #111; border: 1px solid #333; padding: 15px; color: white; margin: 20px 0; outline: none; }
+.whatsapp-btn { width: 100%; background: #25D366; color: white; padding: 18px; border: none; font-weight: 800; border-radius: 5px; cursor: pointer; }
+.user-chip #user-img { width: 35px; height: 35px; border-radius: 50%; border: 2px solid var(--gold); object-fit: cover; }
