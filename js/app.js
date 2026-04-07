@@ -19,17 +19,17 @@ provider.setCustomParameters({ prompt: 'select_account' });
 
 let cart = [];
 const products = [
-    { id: 1, name: "ONION POWDER", price: 299, img: "assets/images/onion.jpg", desc: "Artisanal pink onion powder." },
-    { id: 2, name: "GARLIC DUST", price: 179, img: "assets/images/garlic.jpg", desc: "Potent garlic seasoning." },
-    { id: 3, name: "GINGER POWDER", price: 299, img: "assets/images/ginger.jpg", desc: "fresh aromatic seasoning." }
+    { id: 1, name: "ONION POWDER", price: 299, img: "assets/images/onion.jpg", desc: "Premium dehydrated pink onions." },
+    { id: 2, name: "GARLIC DUST", price: 179, img: "assets/images/garlic.jpg", desc: "Artisanal hand-ground garlic dust." },
+    { id: 3, name: "GINGER DUST", price: 299, img: "assets/image/ginger.jpg", desc: "Aromatic seasoning."}
 ];
 
-// CART TOGGLE (Fixes the Drawer behavior)
+// CART TOGGLE: Fixes the drawer sliding logic
 window.toggleCart = () => {
     document.getElementById('cart-drawer').classList.toggle('active');
 };
 
-// Auth UI Fix (Circular Image and No Flicker)
+// AUTH STATE: Manages the circular avatar correctly
 onAuthStateChanged(auth, (user) => {
     const authBtn = document.getElementById('auth-btn');
     const userProfile = document.getElementById('user-profile');
@@ -45,19 +45,6 @@ onAuthStateChanged(auth, (user) => {
 
 window.handleAuth = () => signInWithPopup(auth, provider);
 window.handleLogout = () => signOut(auth).then(() => location.reload());
-
-// Update UI and Render Logic
-function updateUI() {
-    const list = document.getElementById('cart-items');
-    let total = 0;
-    list.innerHTML = '';
-    cart.forEach(item => {
-        total += (item.price * item.qty);
-        list.innerHTML += `<div class="cart-item"><span>${item.name} x${item.qty}</span><span>₹${item.price * item.qty}</span></div>`;
-    });
-    document.getElementById('cart-total').innerText = `₹${total}`;
-    document.getElementById('bag-count').innerText = cart.reduce((a, b) => a + b.qty, 0);
-}
 
 // Initial Grid Rendering
 const grid = document.getElementById('product-grid');
