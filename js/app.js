@@ -21,7 +21,7 @@ let cart = [];
 const products = [
     { id: 1, name: "ONION POWDER", price: 299, img: "assets/images/onion.jpg", desc: "Premium dehydrated pink onions." },
     { id: 2, name: "GARLIC DUST", price: 179, img: "assets/images/garlic.jpg", desc: "Artisanal hand-ground garlic dust." },
-    { id: 3, name: "GINGER DUST", price: 299, img: "assets/image/ginger.jpg", desc: "Aromatic seasoning."}
+    { id: 3, name: "GINGER DUST", price: 299, img: "assets/images/ginger.jpg", desc: "Aromatic seasoning."}
 ];
 
 // CART TOGGLE: Fixes the drawer sliding logic
