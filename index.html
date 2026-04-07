@@ -3,44 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Powder Root | Artisanal Spice Boutique</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;700;800&display=swap" rel="stylesheet">
-    
+    <title>Powder Root | Artisanal Boutique</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <link rel="stylesheet" href="css/style.css">
-
+    
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="text/javascript">
-        (function() {
-            emailjs.init("lxY_3luPFEJNp2_dO"); // Your Public Key
-        })();
+        (function() { emailjs.init("lxY_3luPFEJNp2_dO"); })();
     </script>
 </head>
 <body>
 
-    <div class="trust-bar">
-        <div class="scrolling-content">
-            <span>PREMIUM ARTISANAL HARVEST 2026 — SHIPPING NATIONWIDE — PURE • RAW • POTENT — 100% ORGANIC SOURCED — </span>
-            <span>PREMIUM ARTISANAL HARVEST 2026 — SHIPPING NATIONWIDE — PURE • RAW • POTENT — 100% ORGANIC SOURCED — </span>
-        </div>
-    </div>
-
     <nav id="main-nav">
-        <div class="brand-identity">
+        <div class="nav-left">
             <img src="assets/images/logo.jpg" class="premium-logo" alt="Logo">
             <div class="brand-name">POWDER <span>ROOT</span></div>
         </div>
 
-        <div class="social-handle">
-            <a href="https://instagram.com/powderroot" target="_blank">
-                <i class="fa-brands fa-instagram"></i> <span>@powderroot</span>
-            </a>
-        </div>
-
-        <div class="nav-actions">
-            <button id="auth-btn" class="gold-solid-btn" onclick="handleAuth()">LOGIN</button>
+        <div class="nav-right">
+            <div class="social-handle">
+                <a href="https://instagram.com/powderroot" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+            <button id="auth-btn" class="login-minimal" onclick="handleAuth()">LOGIN</button>
             <div id="user-profile" class="user-chip hidden">
                 <img id="user-img" src="" alt="User">
                 <button id="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i></button>
@@ -56,39 +41,32 @@
         <video autoplay muted loop playsinline id="bg-video">
             <source src="assets/video/bg.mp4" type="video/mp4">
         </video>
-        <div class="hero-statement">
-            <h1>ELEVATE EVERY <br><span>FLAVOR</span></h1>
-            <a href="#product-grid" class="scroll-hint">Discover the Collection</a>
+        <div class="hero-content">
+            <h1 class="reveal-text">PURE<span>.</span></h1>
+            <h1 class="reveal-text">RAW<span>.</span></h1>
+            <h1 class="reveal-text gold">POTENT<span>.</span></h1>
         </div>
+        <a href="#product-grid" class="scroll-explore">EXPLORE COLLECTION <i class="fa-solid fa-arrow-down"></i></a>
     </section>
 
-    <div id="product-grid" class="product-grid"></div>
+    <div id="product-grid" class="editorial-grid"></div>
 
     <div id="cart-drawer" class="cart-drawer">
         <div class="cart-header">
             <h2>YOUR BAG</h2>
-            <i class="fa-solid fa-xmark" onclick="toggleCart()" style="cursor:pointer;"></i>
+            <i class="fa-solid fa-xmark" onclick="toggleCart()"></i>
         </div>
-
         <div id="cart-items"></div>
-
         <div class="checkout-area">
             <div class="bill-row"><span>TOTAL</span><span id="cart-total">₹0</span></div>
-            
-            <input type="text" id="shipping-address" oninput="validateState()" placeholder="Shipping Address (e.g. Talegaon Dabhade...)">
-
-            <div id="lock-notice" class="lock-notice">
-                <i class="fa-solid fa-lock"></i> Login & Enter Address to Unlock Payment
-            </div>
-
+            <input type="text" id="shipping-address" oninput="validateState()" placeholder="SHIPPING ADDRESS">
+            <div id="lock-notice" class="lock-notice"><i class="fa-solid fa-lock"></i> LOGIN & ADDRESS REQUIRED</div>
             <div id="payment-gate" class="hidden">
                 <div class="upi-card">
-                    <p>SCAN TO PAY VIA UPI</p>
+                    <p>SCAN TO PAY</p>
                     <div id="qr-code"></div>
                 </div>
-                <button class="whatsapp-btn" onclick="sendToWhatsApp()">
-                    <i class="fa-brands fa-whatsapp"></i> Confirm & Sync Order
-                </button>
+                <button class="whatsapp-btn" onclick="sendToWhatsApp()">CONFIRM ORDER</button>
             </div>
         </div>
     </div>
