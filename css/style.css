@@ -6,57 +6,50 @@
     --grey: #888;
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-body { background: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+/* Force Dark Mode visibility */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+    background-color: var(--black) !important; 
+    color: var(--white) !important; 
+    font-family: 'Montserrat', sans-serif; 
+    overflow-x: hidden; 
+}
 
 .hidden { display: none !important; }
 
-/* --- PRELOADER --- */
+/* Preloader */
 #preloader {
-    position: fixed; inset: 0; background: #050505;
+    position: fixed; inset: 0; background: var(--black);
     display: flex; justify-content: center; align-items: center;
-    z-index: 9999; transition: opacity 0.8s ease;
+    z-index: 9999; transition: 0.8s;
 }
 #preloader.fade-out { opacity: 0; visibility: hidden; }
-.loader-bar {
-    width: 150px; height: 1px; background: rgba(197, 160, 89, 0.2);
-    margin: 20px auto; position: relative; overflow: hidden;
-}
-.loader-bar::after {
-    content: ''; position: absolute; left: -100%; top: 0;
-    width: 100%; height: 100%; background: var(--gold);
-    animation: loading 1.5s infinite;
-}
-@keyframes loading { 100% { left: 100%; } }
 
-/* --- NAV --- */
-nav { position: fixed; top: 0; width: 100%; padding: 30px 6%; display: flex; justify-content: space-between; align-items: center; z-index: 2000; }
-.brand-name { font-family: 'Cinzel'; font-size: 1.2rem; letter-spacing: 4px; font-weight: 700; }
+/* Navigation - Visible & High Contrast */
+nav {
+    position: fixed; top: 0; width: 100%; padding: 30px 6%;
+    display: flex; justify-content: space-between; align-items: center;
+    z-index: 2000; background: linear-gradient(to bottom, rgba(5,5,5,1), transparent);
+}
+.brand-name { font-family: 'Cinzel'; font-size: 1.2rem; letter-spacing: 4px; color: var(--white); }
 .brand-name span { color: var(--gold); }
-.premium-logo { height: 30px; border-radius: 50%; }
+.nav-right i { color: var(--white) !important; font-size: 1.2rem; }
 
-.login-minimal { background: none; border: none; color: var(--white); font-weight: 700; cursor: pointer; font-size: 0.7rem; }
-.user-chip img { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--gold); }
+/* Hero Section Visibility Fix */
+.hero { height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; }
+#bg-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.3; }
+.hero-content { position: relative; z-index: 10; text-align: center; }
+.hero-content h1 { font-family: 'Cinzel'; font-size: clamp(3rem, 15vw, 9rem); line-height: 0.9; }
+.hero-content h1 span, h1.gold { color: var(--gold); }
 
-/* --- EDITORIAL GRID --- */
+/* Editorial Product Grid */
 .editorial-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; padding: 100px 6%; }
-.product-card { grid-column: span 6; opacity: 0; transform: translateY(30px); transition: 1s cubic-bezier(0.16, 1, 0.3, 1); }
+.product-card { grid-column: span 6; margin-bottom: 80px; opacity: 0; transform: translateY(30px); transition: 1s; }
 .product-card:nth-child(even) { grid-column: 7 / span 5; margin-top: 100px; }
 .product-card:nth-child(odd) { grid-column: 2 / span 5; }
-.product-card img { width: 100%; height: 500px; object-fit: cover; filter: brightness(0.7); transition: 0.5s; cursor: pointer; }
-.product-card:hover img { filter: brightness(1); }
+.product-card img { width: 100%; height: auto; border: 1px solid var(--charcoal); cursor: pointer; }
 
-/* --- DETAIL VIEW --- */
-#detail-view { min-height: 100vh; padding: 150px 10%; display: flex; gap: 80px; position: relative; }
-.detail-img-container { flex: 1; }
-.detail-img-container img { width: 100%; border: 1px solid var(--charcoal); }
-.detail-info { flex: 1; }
-.detail-info h2 { font-family: 'Cinzel'; font-size: 3.5rem; }
-.back-link { position: absolute; top: 100px; left: 10%; cursor: pointer; font-size: 0.7rem; color: var(--grey); }
-
-/* --- FEEDBACK ELEMENTS --- */
-#toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 5000; }
-.toast { background: var(--gold); color: var(--black); padding: 12px 25px; font-weight: 800; font-size: 0.7rem; margin-top: 10px; }
+/* Feedback elements */
 .btn-loading { pointer-events: none; color: transparent !important; }
 .btn-loading::after { content: ""; position: absolute; width: 16px; height: 16px; top: 50%; left: 50%; margin: -8px; border: 2px solid var(--gold); border-top-color: transparent; border-radius: 50%; animation: spin 0.6s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
