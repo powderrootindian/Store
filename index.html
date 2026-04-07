@@ -13,7 +13,14 @@
         (function() { emailjs.init("lxY_3luPFEJNp2_dO"); })();
     </script>
 </head>
-<body>
+<body class="loading">
+
+    <div id="preloader">
+        <div class="loader-content">
+            <div class="brand-name">POWDER <span>ROOT</span></div>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
 
     <nav id="main-nav">
         <div class="nav-left">
@@ -37,24 +44,26 @@
         </div>
     </nav>
 
-    <section class="hero">
-        <video autoplay muted loop playsinline id="bg-video">
-            <source src="assets/video/bg.mp4" type="video/mp4">
-        </video>
-        <div class="hero-content">
-            <h1 class="reveal-text">PURE<span>.</span></h1>
-            <h1 class="reveal-text">RAW<span>.</span></h1>
-            <h1 class="reveal-text gold">POTENT<span>.</span></h1>
-        </div>
-        <a href="#product-grid" class="scroll-explore">EXPLORE COLLECTION <i class="fa-solid fa-arrow-down"></i></a>
-    </section>
+    <main id="home-view">
+        <section class="hero">
+            <video autoplay muted loop playsinline id="bg-video">
+                <source src="assets/video/bg.mp4" type="video/mp4">
+            </video>
+            <div class="hero-content">
+                <h1 class="reveal-text">PURE<span>.</span></h1>
+                <h1 class="reveal-text">RAW<span>.</span></h1>
+                <h1 class="reveal-text gold">POTENT<span>.</span></h1>
+            </div>
+        </section>
+        <div id="product-grid" class="editorial-grid"></div>
+    </main>
 
-    <div id="product-grid" class="editorial-grid"></div>
+    <section id="detail-view" class="hidden"></section>
 
     <div id="cart-drawer" class="cart-drawer">
         <div class="cart-header">
             <h2>YOUR BAG</h2>
-            <i class="fa-solid fa-xmark" onclick="toggleCart()"></i>
+            <i class="fa-solid fa-xmark" onclick="toggleCart()" style="cursor:pointer;"></i>
         </div>
         <div id="cart-items"></div>
         <div class="checkout-area">
@@ -66,12 +75,12 @@
                     <p>SCAN TO PAY</p>
                     <div id="qr-code"></div>
                 </div>
-                <button class="whatsapp-btn" onclick="sendToWhatsApp()">CONFIRM ORDER</button>
+                <button id="confirm-btn" class="whatsapp-btn" onclick="sendToWhatsApp()">CONFIRM ORDER</button>
             </div>
         </div>
     </div>
 
-    <div id="toast"></div>
+    <div id="toast-container"></div>
     <script type="module" src="js/app.js"></script>
 </body>
 </html>
