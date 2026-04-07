@@ -8,8 +8,7 @@ const firebaseConfig = {
   projectId: "powderroot26",
   storageBucket: "powderroot26.firebasestorage.app",
   messagingSenderId: "776300724322",
-  appId: "1:776300724322:web:44b8908b6ffe1f6596513b",
-  measurementId: "G-3GTKBEFJ2V"
+  appId: "1:776300724322:web:44b8908b6ffe1f6596513b"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -19,128 +18,117 @@ const provider = new GoogleAuthProvider();
 
 let cart = [];
 const products = [
-    { id: 1, name: "ONION POWDER", price: 299, img: "assets/images/onion.jpg" },
-    { id: 2, name: "GARLIC DUST", price: 179, img: "assets/images/garlic.jpg" },
-    { id: 3, name: "GINGER ROOT", price: 179, img: "assets/images/ginger.jpg" }
+    { id: 1, name: "ONION POWDER", price: 299, img: "assets/images/onion.jpg", desc: "Hand-harvested Nashik onions, slow-dehydrated to lock in pungent sweetness." },
+    { id: 2, name: "GARLIC DUST", price: 179, img: "assets/images/garlic.jpg", desc: "Artisanal garlic cloves ground into a fine, potent dust for luxury seasoning." },
+    { id: 3, name: "GINGER ROOT", price: 179, img: "assets/images/ginger.jpg", desc: "Pure, raw ginger root powder with an intense, earthy heat." }
 ];
 
-// --- EDITORIAL SCROLL REVEAL ---
-const revealOnScroll = () => {
+// --- PRELOADER & REVEAL ---
+window.addEventListener('load', () => {
+    setTimeout(() => document.getElementById('preloader').classList.add('fade-out'), 1000);
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = "1";
-                entry.target.style.transform = "translateY(0)";
-            }
-        });
+        entries.forEach(e => { if(e.isIntersecting) { e.target.style.opacity = "1"; e.target.style.transform = "translateY(0)"; }});
     }, { threshold: 0.1 });
+    document.querySelectorAll('.product-card').forEach(c => observer.observe(c));
+});
 
-    document.querySelectorAll('.product-card').forEach(card => observer.observe(card));
-};
-
-// --- CART LOGIC ---
-window.toggleCart = () => document.getElementById('cart-drawer').classList.toggle('active');
-
-window.addToCart = (id) => {
+// --- DYNAMIC VIEWS ---
+window.showProduct = (id) => {
     const p = products.find(x => x.id === id);
-    const ex = cart.find(x => x.id === id);
-    ex ? ex.qty++ : cart.push({...p, qty: 1});
-    updateUI();
-    showToast("Added to Bag");
+    const detail = document.getElementById('detail-view');
+    document.getElementById('home-view').classList.add('hidden');
+    detail.classList.remove('hidden');
+    window.scrollTo(0,0);
+    detail.innerHTML = `
+        <a onclick="showHome()" class="back-link">← BACK TO COLLECTION</a>
+        <div class="detail-img-container"><img src="${p.img}"></div>
+        <div class="detail-info">
+            <h2>${p.name}</h2>
+            <p style="color:var(--gold); font-size:1.5rem; margin:20px 0;">₹${p.price}</p>
+            <p style="color:var(--grey); line-height:1.8;">${p.desc}</p>
+            <button class="add-btn" onclick="addToCart(${p.id}, this)" style="margin-top:40px; padding:15px 40px; background:none; border:1px solid var(--gold); color:white; cursor:pointer;">ADD TO BAG</button>
+        </div>`;
 };
 
-window.changeQty = (id, delta) => {
-    const item = cart.find(x => x.id === id);
-    if (!item) return;
-    item.qty += delta;
-    if (item.qty <= 0) cart = cart.filter(x => x.id !== id);
-    updateUI();
+window.showHome = () => {
+    document.getElementById('home-view').classList.remove('hidden');
+    document.getElementById('detail-view').classList.add('hidden');
 };
+
+// --- CART & TOAST ---
+function showToast(m) {
+    const c = document.getElementById('toast-container');
+    const t = document.createElement('div'); t.className = 'toast'; t.innerText = m;
+    c.appendChild(t); setTimeout(() => t.remove(), 3000);
+}
+
+window.addToCart = (id, btn = null) => {
+    if(btn) btn.classList.add('btn-loading');
+    setTimeout(() => {
+        const p = products.find(x => x.id === id);
+        const ex = cart.find(x => x.id === id);
+        ex ? ex.qty++ : cart.push({...p, qty: 1});
+        updateUI(); showToast(`${p.name} ADDED`);
+        if(btn) btn.classList.remove('btn-loading');
+    }, 500);
+};
+
+window.toggleCart = () => document.getElementById('cart-drawer').classList.toggle('active');
 
 function updateUI() {
     const list = document.getElementById('cart-items');
     let total = 0; list.innerHTML = '';
     cart.forEach(item => {
         total += (item.price * item.qty);
-        list.innerHTML += `
-            <div class="cart-item-row" style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                <div><p style="font-weight:700;">${item.name}</p></div>
-                <div style="display:flex; gap:10px;">
-                    <button onclick="changeQty(${item.id}, -1)">-</button>
-                    <span>${item.qty}</span>
-                    <button onclick="changeQty(${item.id}, 1)">+</button>
-                </div>
-                <div>₹${item.price * item.qty}</div>
-            </div>`;
+        list.innerHTML += `<div style="display:flex; justify-content:space-between; margin-bottom:15px;"><span>${item.name} x${item.qty}</span><span>₹${item.price * item.qty}</span></div>`;
     });
     document.getElementById('cart-total').innerText = `₹${total}`;
     document.getElementById('bag-count').innerText = cart.reduce((a, b) => a + b.qty, 0);
     validateState();
 }
 
-// --- SECURE QR GATE ---
+// --- SECURE CHECKOUT ---
 window.validateState = () => {
     const user = auth.currentUser;
     const addr = document.getElementById('shipping-address').value.trim();
     const gate = document.getElementById('payment-gate');
     const notice = document.getElementById('lock-notice');
-    const qr = document.getElementById('qr-code');
-
     if (user && addr.length > 10 && cart.length > 0) {
         gate.classList.remove('hidden'); notice.classList.add('hidden');
         const total = cart.reduce((a, b) => a + (b.price * b.qty), 0);
         const upi = `upi://pay?pa=8788855688-2@ybl&pn=POWDER%20ROOT&am=${total}&cu=INR`;
-        const url = `https://chart.googleapis.com/chart?chs=250x250&cht=qr&chl=${encodeURIComponent(upi)}&choe=UTF-8`;
-        qr.innerHTML = `<img src="${url}" alt="QR">`;
-    } else {
-        gate.classList.add('hidden'); notice.classList.remove('hidden');
-    }
+        document.getElementById('qr-code').innerHTML = `<img src="https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=${encodeURIComponent(upi)}&choe=UTF-8">`;
+    } else { gate.classList.add('hidden'); notice.classList.remove('hidden'); }
 };
 
 window.sendToWhatsApp = async () => {
-    const user = auth.currentUser;
-    const addr = document.getElementById('shipping-address').value;
-    const total = cart.reduce((a, b) => a + (b.price * b.qty), 0);
+    const btn = document.getElementById('confirm-btn'); btn.classList.add('btn-loading');
+    const user = auth.currentUser; const addr = document.getElementById('shipping-address').value;
     const items = cart.map(i => `${i.name} x${i.qty}`).join(", ");
     try {
-        await addDoc(collection(db, "orders"), { customer: user.displayName, items, total, addr, timestamp: serverTimestamp() });
-        emailjs.send('service_default', 'template_powderroot', { from_name: user.displayName, order_details: items, total_price: total, shipping_address: addr });
-        window.open(`https://wa.me/919096999662?text=${encodeURIComponent("Order Confirmed: " + items)}`, '_blank');
+        await addDoc(collection(db, "orders"), { customer: user.displayName, items, addr, timestamp: serverTimestamp() });
+        emailjs.send('service_default', 'template_powderroot', { from_name: user.displayName, order_details: items, shipping_address: addr });
+        window.open(`https://wa.me/919096999662?text=${encodeURIComponent("New Order: " + items)}`, '_blank');
         cart = []; updateUI(); toggleCart();
-    } catch (e) { console.log(e); }
+    } catch (e) { console.error(e); } finally { btn.classList.remove('btn-loading'); }
 };
 
+// --- AUTH ---
 window.handleAuth = () => signInWithPopup(auth, provider);
 window.handleLogout = () => signOut(auth).then(() => location.reload());
 
 onAuthStateChanged(auth, (user) => {
-    if (user) {
-        document.getElementById('auth-btn').classList.add('hidden');
-        document.getElementById('user-profile').classList.remove('hidden');
-        document.getElementById('user-img').src = user.photoURL;
-    }
+    const authBtn = document.getElementById('auth-btn');
+    const userProfile = document.getElementById('user-profile');
+    if (user) { authBtn.classList.add('hidden'); userProfile.classList.remove('hidden'); document.getElementById('user-img').src = user.photoURL; }
+    else { authBtn.classList.remove('hidden'); userProfile.classList.add('hidden'); }
     validateState();
 });
 
-// INITIAL RENDER
+// --- RENDER GRID ---
 const grid = document.getElementById('product-grid');
 products.forEach(p => {
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    card.innerHTML = `
-        <img src="${p.img}">
-        <div class="product-info">
-            <h3>${p.name}</h3>
-            <p>₹${p.price}</p>
-            <button class="add-btn" onclick="addToCart(${p.id})">ADD TO BAG</button>
-        </div>`;
+    const card = document.createElement('div'); card.className = 'product-card';
+    card.innerHTML = `<img src="${p.img}" onclick="showProduct(${p.id})"><h3>${p.name}</h3><button onclick="addToCart(${p.id}, this)">QUICK ADD</button>`;
     grid.appendChild(card);
 });
-
-revealOnScroll();
-window.addEventListener('scroll', () => {
-    const nav = document.getElementById('main-nav');
-    window.scrollY > 50 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
-});
-
-function showToast(m) { const t = document.getElementById('toast'); t.innerText = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
