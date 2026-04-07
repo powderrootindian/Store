@@ -19,11 +19,26 @@ const provider = new GoogleAuthProvider();
 
 let cart = [];
 const products = [
-    { id: 1, name: "PURE ONION POWDER", price: 299, img: "assets/images/onion.jpg" },
-    { id: 2, name: "ARTISANAL GARLIC", price: 179, img: "assets/images/garlic.jpg" },
-    { id: 3, name: "RAW GINGER POWDER", price: 179, img: "assets/images/ginger.jpg" }
+    { id: 1, name: "ONION POWDER", price: 299, img: "assets/images/onion.jpg" },
+    { id: 2, name: "GARLIC DUST", price: 179, img: "assets/images/garlic.jpg" },
+    { id: 3, name: "GINGER ROOT", price: 179, img: "assets/images/ginger.jpg" }
 ];
 
+// --- EDITORIAL SCROLL REVEAL ---
+const revealOnScroll = () => {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = "1";
+                entry.target.style.transform = "translateY(0)";
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.product-card').forEach(card => observer.observe(card));
+};
+
+// --- CART LOGIC ---
 window.toggleCart = () => document.getElementById('cart-drawer').classList.toggle('active');
 
 window.addToCart = (id) => {
@@ -48,14 +63,14 @@ function updateUI() {
     cart.forEach(item => {
         total += (item.price * item.qty);
         list.innerHTML += `
-            <div class="cart-item-row" style="display:flex; justify-content:space-between; margin-bottom:15px; border-bottom:1px solid #222; padding-bottom:10px;">
-                <div><p style="font-size:0.8rem; font-weight:700;">${item.name}</p></div>
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <button onclick="changeQty(${item.id}, -1)" style="background:#222; color:white; border:1px solid var(--gold); width:24px;">-</button>
+            <div class="cart-item-row" style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                <div><p style="font-weight:700;">${item.name}</p></div>
+                <div style="display:flex; gap:10px;">
+                    <button onclick="changeQty(${item.id}, -1)">-</button>
                     <span>${item.qty}</span>
-                    <button onclick="changeQty(${item.id}, 1)" style="background:#222; color:white; border:1px solid var(--gold); width:24px;">+</button>
+                    <button onclick="changeQty(${item.id}, 1)">+</button>
                 </div>
-                <div style="font-weight:700;">₹${item.price * item.qty}</div>
+                <div>₹${item.price * item.qty}</div>
             </div>`;
     });
     document.getElementById('cart-total').innerText = `₹${total}`;
@@ -63,6 +78,7 @@ function updateUI() {
     validateState();
 }
 
+// --- SECURE QR GATE ---
 window.validateState = () => {
     const user = auth.currentUser;
     const addr = document.getElementById('shipping-address').value.trim();
@@ -86,42 +102,12 @@ window.sendToWhatsApp = async () => {
     const addr = document.getElementById('shipping-address').value;
     const total = cart.reduce((a, b) => a + (b.price * b.qty), 0);
     const items = cart.map(i => `${i.name} x${i.qty}`).join(", ");
-
     try {
-        // 1. Save to Firebase
-        await addDoc(collection(db, "orders"), { 
-            uid: user.uid, 
-            customer: user.displayName,
-            items, 
-            total, 
-            addr, 
-            timestamp: serverTimestamp() 
-        });
-
-        // 2. NEW: Trigger EmailJS
-        const templateParams = {
-            from_name: user.displayName,
-            user_email: user.email,
-            order_details: items,
-            total_price: total,
-            shipping_address: addr
-        };
-
-        // Replace 'service_id' and 'template_id' with your actual EmailJS IDs
-        emailjs.send('service_default', 'template_powderroot', templateParams)
-            .then(() => console.log('Email Sent Successfully'))
-            .catch((err) => console.error('Email Failed', err));
-
-        // 3. Open WhatsApp
-        const msg = `🛒 *POWDER ROOT ORDER*\n👤 *Client:* ${user.displayName}\n📦 *Items:* ${items}\n💰 *Total:* ₹${total}\n📍 *Addr:* ${addr}`;
-        window.open(`https://wa.me/919096999662?text=${encodeURIComponent(msg)}`, '_blank');
-        
+        await addDoc(collection(db, "orders"), { customer: user.displayName, items, total, addr, timestamp: serverTimestamp() });
+        emailjs.send('service_default', 'template_powderroot', { from_name: user.displayName, order_details: items, total_price: total, shipping_address: addr });
+        window.open(`https://wa.me/919096999662?text=${encodeURIComponent("Order Confirmed: " + items)}`, '_blank');
         cart = []; updateUI(); toggleCart();
-        showToast("Order Confirmed & Synced");
-    } catch (e) { 
-        alert("Error processing order."); 
-        console.error(e);
-    }
+    } catch (e) { console.log(e); }
 };
 
 window.handleAuth = () => signInWithPopup(auth, provider);
@@ -136,17 +122,25 @@ onAuthStateChanged(auth, (user) => {
     validateState();
 });
 
-// Render Products
+// INITIAL RENDER
 const grid = document.getElementById('product-grid');
 products.forEach(p => {
     const card = document.createElement('div');
     card.className = 'product-card';
-    card.innerHTML = `<img src="${p.img}"><h3>${p.name}</h3><p style="color:var(--gold); margin:10px 0;">₹${p.price}</p><button class="gold-solid-btn" style="width:100%" onclick="addToCart(${p.id})">ADD TO BAG</button>`;
+    card.innerHTML = `
+        <img src="${p.img}">
+        <div class="product-info">
+            <h3>${p.name}</h3>
+            <p>₹${p.price}</p>
+            <button class="add-btn" onclick="addToCart(${p.id})">ADD TO BAG</button>
+        </div>`;
     grid.appendChild(card);
 });
 
-function showToast(m) { 
-    const t = document.getElementById('toast'); 
-    t.innerText = m; t.classList.add('show'); 
-    setTimeout(() => t.classList.remove('show'), 3000); 
-}
+revealOnScroll();
+window.addEventListener('scroll', () => {
+    const nav = document.getElementById('main-nav');
+    window.scrollY > 50 ? nav.classList.add('scrolled') : nav.classList.remove('scrolled');
+});
+
+function showToast(m) { const t = document.getElementById('toast'); t.innerText = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); }
