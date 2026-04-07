@@ -29,14 +29,15 @@
         </div>
 
         <div class="nav-right">
-            <div class="social-handle">
-                <a href="https://instagram.com/powderroot" target="_blank"><i class="fa-brands fa-instagram"></i></a>
-            </div>
+            <a href="https://instagram.com/powderroot" target="_blank" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+            
             <button id="auth-btn" class="login-minimal" onclick="handleAuth()">LOGIN</button>
+            
             <div id="user-profile" class="user-chip hidden">
-                <img id="user-img" src="" alt="User">
+                <img id="user-img" src="" alt="User" class="circular-avatar">
                 <button id="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i></button>
             </div>
+
             <div class="bag-icon" onclick="toggleCart()">
                 <i class="fa-solid fa-bag-shopping"></i>
                 <span id="bag-count">0</span>
@@ -63,7 +64,7 @@
     <div id="cart-drawer" class="cart-drawer">
         <div class="cart-header">
             <h2>YOUR BAG</h2>
-            <i class="fa-solid fa-xmark" onclick="toggleCart()"></i>
+            <i class="fa-solid fa-xmark" onclick="toggleCart()" style="cursor:pointer;"></i>
         </div>
         <div id="cart-items"></div>
         <div class="checkout-area">
