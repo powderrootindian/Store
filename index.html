@@ -4,14 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Powder Root | Artisanal Boutique</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
-    
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    <script type="text/javascript">
-        (function() { emailjs.init("lxY_3luPFEJNp2_dO"); })();
-    </script>
 </head>
 <body class="loading">
 
@@ -29,13 +24,15 @@
         </div>
 
         <div class="nav-right">
-            <a href="https://www.instagram.com/powderoots?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-link"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://instagram.com/powderroot" target="_blank" class="social-link"><i class="fa-brands fa-instagram"></i></a>
             
             <button id="auth-btn" class="login-minimal" onclick="handleAuth()">LOGIN</button>
             
             <div id="user-profile" class="user-chip hidden">
-                <img id="user-img" src="" alt="" class="circular-avatar">
-                <button id="logout-btn" onclick="handleLogout()"><i class="fa-solid fa-power-off"></i></button>
+                <div class="avatar-wrapper">
+                    <img id="user-img" src="" alt="" class="circular-avatar">
+                </div>
+                <button id="logout-btn" onclick="handleLogout()" title="Logout"><i class="fa-solid fa-power-off"></i></button>
             </div>
 
             <div class="bag-icon" onclick="toggleCart()">
@@ -51,6 +48,7 @@
                 <source src="assets/video/bg.mp4" type="video/mp4">
             </video>
             <div class="video-overlay"></div>
+            
             <div class="hero-content">
                 <h1 class="reveal-text">PURE<span>.</span></h1>
                 <h1 class="reveal-text">RAW<span>.</span></h1>
@@ -62,27 +60,22 @@
 
     <section id="detail-view" class="hidden"></section>
 
+    <div id="cart-overlay" onclick="toggleCart()"></div>
     <div id="cart-drawer" class="cart-drawer">
         <div class="cart-header">
             <h2>YOUR BAG</h2>
             <i class="fa-solid fa-xmark" onclick="toggleCart()" style="cursor:pointer;"></i>
         </div>
         <div id="cart-items"></div>
-        <div class="checkout-area">
+        <div class="checkout-footer">
             <div class="bill-row"><span>TOTAL</span><span id="cart-total">₹0</span></div>
-            <input type="text" id="shipping-address" oninput="validateState()" placeholder="SHIPPING ADDRESS">
-            <div id="lock-notice" class="lock-notice"><i class="fa-solid fa-lock"></i> LOGIN & ADDRESS REQUIRED</div>
+            <input type="text" id="shipping-address" placeholder="SHIPPING ADDRESS">
             <div id="payment-gate" class="hidden">
-                <div class="upi-card">
-                    <p>SCAN TO PAY</p>
-                    <div id="qr-code"></div>
-                </div>
-                <button id="confirm-btn" class="whatsapp-btn" onclick="sendToWhatsApp()">CONFIRM ORDER</button>
+                <button class="whatsapp-btn" onclick="sendToWhatsApp()">CONFIRM ON WHATSAPP</button>
             </div>
         </div>
     </div>
 
-    <div id="toast-container"></div>
     <script type="module" src="js/app.js"></script>
 </body>
 </html>
