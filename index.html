@@ -2,80 +2,102 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Powder Root | Artisanal Boutique</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POWDER ROOT | Artisanal Essence</title>
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="loading">
+<body>
 
-    <div id="preloader">
-        <div class="loader-content">
-            <div class="brand-name">POWDER <span>ROOT</span></div>
-            <div class="loader-bar"></div>
-        </div>
+    <div class="video-bg">
+        <video autoplay muted loop playsinline id="bgVideo">
+            <source src="assets/video/bg.mp4" type="video/mp4">
+        </video>
+        <div class="overlay"></div>
     </div>
 
-    <nav id="main-nav">
-        <div class="nav-left">
-            <img src="assets/images/logo.jpg" class="premium-logo" alt="Logo">
-            <div class="brand-name">POWDER <span>ROOT</span></div>
+    <nav class="glass-nav">
+        <div class="brand-group">
+            <img src="assets/images/logo.jpg" alt="Logo" class="brand-icon">
+            <div class="logo">POWDER<span>ROOT</span></div>
         </div>
-
         <div class="nav-right">
-            <a href="https://www.instagram.com/powderoots?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="social-link"><i class="fa-brands fa-instagram"></i></a>
-            
-            <button id="auth-btn" class="login-minimal" onclick="handleAuth()">LOGIN</button>
-            
-            <div id="user-profile" class="user-chip hidden">
-                <div class="avatar-wrapper">
-                    <img id="user-img" src="" alt="" class="circular-avatar">
+            <div id="auth-section">
+                <button id="login-btn" class="btn-gold-outline" onclick="handleAuth()">LOGIN</button>
+                <div id="user-profile" class="hidden">
+                    <img id="user-img" src="" alt="Profile" class="nav-avatar">
+                    <button onclick="handleLogout()" class="logout-trigger" title="Logout">
+                        <i class="fa-solid fa-power-off"></i>
+                    </button>
                 </div>
-                <button id="logout-btn" onclick="handleLogout()" title="Logout"><i class="fa-solid fa-power-off"></i></button>
             </div>
-
-            <div class="bag-icon" onclick="toggleCart()">
+            <div class="cart-trigger" onclick="toggleCart()">
                 <i class="fa-solid fa-bag-shopping"></i>
-                <span id="bag-count">0</span>
+                <span id="cart-count">0</span>
             </div>
         </div>
     </nav>
 
-    <main id="home-view">
-        <section class="hero">
-            <video autoplay muted loop playsinline id="bg-video">
-                <source src="assets/video/bg.mp4" type="video/mp4">
-            </video>
-            <div class="video-overlay"></div>
-            
-            <div class="hero-content">
-                <h1 class="reveal-text">PURE<span>.</span></h1>
-                <h1 class="reveal-text">RAW<span>.</span></h1>
-                <h1 class="reveal-text gold">POTENT<span>.</span></h1>
-            </div>
-        </section>
-        <div id="product-grid" class="editorial-grid"></div>
-    </main>
+    <section class="hero">
+        <div class="hero-content">
+            <h5>ESTABLISHED 2026</h5>
+            <h1>PURE. ORGANIC. <br><span class="gold-text">REFINED.</span></h1>
+            <button class="btn-gold" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">SHOP COLLECTION</button>
+        </div>
+    </section>
 
-    <section id="detail-view" class="hidden"></section>
+    <section id="shop" class="shop-section">
+        <h2 class="section-title">Our Essentials</h2>
+        <div class="product-grid" id="product-container"></div>
+    </section>
 
-    <div id="cart-overlay" onclick="toggleCart()"></div>
     <div id="cart-drawer" class="cart-drawer">
         <div class="cart-header">
-            <h2>YOUR BAG</h2>
-            <i class="fa-solid fa-xmark" onclick="toggleCart()" style="cursor:pointer;"></i>
+            <h3>YOUR BAG</h3>
+            <i class="fa-solid fa-xmark" onclick="toggleCart()"></i>
         </div>
-        <div id="cart-items"></div>
-        <div class="checkout-footer">
-            <div class="bill-row"><span>TOTAL</span><span id="cart-total">₹0</span></div>
-            <input type="text" id="shipping-address" placeholder="SHIPPING ADDRESS">
-            <div id="payment-gate" class="hidden">
-                <button class="whatsapp-btn" onclick="sendToWhatsApp()">CONFIRM ON WHATSAPP</button>
+
+        <div id="step-1" class="cart-step">
+            <div id="cart-items-list"></div>
+            <div class="cart-footer">
+                <div class="total-row">
+                    <span>TOTAL</span>
+                    <span id="cart-total">₹0.00</span>
+                </div>
+                <button class="btn-gold-full" onclick="nextStep(2)">SHIPPING DETAILS</button>
+            </div>
+        </div>
+
+        <div id="step-2" class="cart-step hidden">
+            <button class="back-link" onclick="nextStep(1)">← BACK TO BAG</button>
+            <h4>SHIPPING DETAILS</h4>
+            <div class="address-section">
+                <input type="text" id="cust-address" placeholder="Street Address" class="gold-input">
+                <div class="input-row">
+                    <input type="text" id="cust-city" placeholder="City" class="gold-input">
+                    <input type="text" id="cust-zip" placeholder="ZIP Code" class="gold-input">
+                </div>
+            </div>
+            <div class="cart-footer">
+                <button class="btn-gold-full" onclick="nextStep(3)">GO TO PAYMENT</button>
+            </div>
+        </div>
+
+        <div id="step-3" class="cart-step hidden">
+            <button class="back-link" onclick="nextStep(2)">← BACK TO SHIPPING</button>
+            <h4 class="gold-text">SCAN & PAY</h4>
+            <div id="qr-container" class="qr-box"></div>
+            <p class="qr-hint">Scan via any UPI App to complete payment</p>
+            <div class="cart-footer">
+                <button class="whatsapp-btn" onclick="checkoutViaWhatsApp()">
+                    CONFIRM & ORDER <i class="fa-brands fa-whatsapp"></i>
+                </button>
             </div>
         </div>
     </div>
 
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script type="module" src="js/app.js"></script>
 </body>
 </html>
