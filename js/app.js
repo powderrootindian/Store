@@ -1,208 +1,209 @@
+// 1. IMPORT NECESSARY SERVICES
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { 
+    getAuth, 
+    signInWithPopup, 
+    signOut, 
+    GoogleAuthProvider, 
+    onAuthStateChanged,
+    setPersistence,
+    browserLocalPersistence 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-// --- FIREBASE CONFIGURATION ---
+// 2. CONFIGURATIONS
 const firebaseConfig = {
     apiKey: "AIzaSyC-VwmmnGZBPGctP8bWp_ozBBTw45-eYds",
     authDomain: "powderroot26.firebaseapp.com",
     projectId: "powderroot26",
     storageBucket: "powderroot26.firebasestorage.app",
     messagingSenderId: "776300724322",
-    appId: "1:776300724322:web:44b8908b6ffe1f6596513b"
+    appId: "1:776300724322:web:44b8908b6ffe1f6596513b",
 };
 
+const PHONE_NUMBER = "919096999662"; 
+const UPI_ID = "8788855688-2@ybl"; 
+
+// 3. INITIALIZE SERVICES
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
-// Stability fix for browser security policies
-provider.setCustomParameters({ prompt: 'select_account' });
+// Initialize EmailJS with your credentials
+emailjs.init("lxY_3luPFEJNp2_dO");
 
-// --- STATE MANAGEMENT ---
-let cart = [];
+// Apply persistence configuration to handle browser tracking preventions gracefully
+setPersistence(auth, browserLocalPersistence)
+    .catch((error) => console.error("Persistence configuration issue:", error));
+
+// 4. PRODUCT DATA SOURCE
 const products = [
-    { id: 1, name: "ONION POWDER", price: 299, img: "assets/images/onion.jpg", desc: "Premium dehydrated pink onions sourced from Nashik." },
-    { id: 2, name: "GARLIC DUST", price: 179, img: "assets/images/garlic.jpg", desc: "Artisanal hand-ground garlic dust for potent flavor." },
-    { id: 3, name: "GINGER DUST", price: 299, img: "assets/images/gINGER.jpg", desc: "Aromatic flavouring dust." }
+    { id: 1, name: "Artisanal Onion", price: 299, img: "assets/images/onion.jpg", desc: "Hand-milled sun-dried shallots." },
+    { id: 2, name: "Roasted Garlic", price: 199, img: "assets/images/garlic.jpg", desc: "Slow-aged for deep umami essence." },
+    { id: 3, name: "Infused Ginger", price: 199, img: "assets/images/ginger.jpg", desc: "Sharply refined organic root." }
 ];
 
-// --- AUTHENTICATION LOGIC ---
+let cart = [];
+let currentUser = null;
+
+// 5. AUTHENTICATION HUB
 onAuthStateChanged(auth, (user) => {
-    const authBtn = document.getElementById('auth-btn');
+    currentUser = user;
+    const loginBtn = document.getElementById('login-btn');
     const userProfile = document.getElementById('user-profile');
     const userImg = document.getElementById('user-img');
-    const paymentGate = document.getElementById('payment-gate');
-    const lockNotice = document.getElementById('lock-notice');
 
     if (user) {
-        authBtn.classList.add('hidden');
+        loginBtn.classList.add('hidden');
         userProfile.classList.remove('hidden');
         userImg.src = user.photoURL;
-        if (lockNotice) lockNotice.classList.add('hidden');
-        if (paymentGate) paymentGate.classList.remove('hidden');
     } else {
-        authBtn.classList.remove('hidden');
+        loginBtn.classList.remove('hidden');
         userProfile.classList.add('hidden');
-        if (lockNotice) lockNotice.classList.remove('hidden');
-        if (paymentGate) paymentGate.classList.add('hidden');
+        userImg.src = "";
     }
 });
 
-window.handleAuth = () => signInWithPopup(auth, provider).catch(err => console.error("Login Error:", err));
-window.handleLogout = () => signOut(auth).then(() => location.reload());
+window.handleAuth = () => signInWithPopup(auth, provider).catch(err => console.error("Login closed:", err));
+window.handleLogout = () => signOut(auth).then(() => location.reload()).catch(err => console.error("Logout issue:", err));
 
-// --- NAVIGATION & UI ---
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        const preloader = document.getElementById('preloader');
-        if (preloader) preloader.classList.add('fade-out');
-    }, 1000);
+// 6. TOGGLE VISIBILITY EXTENSION
+window.toggleCart = () => document.getElementById('cart-drawer').classList.toggle('active');
 
-    // Scroll Reveal Logic
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-            if (e.isIntersecting) {
-                e.target.style.opacity = "1";
-                e.target.style.transform = "translateY(0)";
-            }
-        });
-    });
-    document.querySelectorAll('.product-card').forEach(c => observer.observe(c));
-});
-
-window.toggleCart = () => {
-    const drawer = document.getElementById('cart-drawer');
-    const isOpen = drawer.classList.toggle('active');
-    document.body.style.overflow = isOpen ? 'hidden' : 'auto';
-};
-
-window.showProduct = (id) => {
-    const p = products.find(x => x.id === id);
-    const detail = document.getElementById('detail-view');
-    document.getElementById('home-view').classList.add('hidden');
-    detail.classList.remove('hidden');
-    window.scrollTo(0, 0);
-
-    detail.innerHTML = `
-        <div class="detail-container">
-            <button class="back-link" onclick="showHome()">← BACK TO COLLECTION</button>
-            <div class="detail-grid">
-                <div class="detail-img-box">
-                    <img src="${p.img}" alt="${p.name}">
-                </div>
-                <div class="detail-info">
-                    <h2 class="cinzel">${p.name}</h2>
-                    <p class="price-tag">₹${p.price}</p>
-                    <p class="description">${p.desc}</p>
-                    <button class="add-btn-large" onclick="addToCart(${p.id})">ADD TO BAG</button>
-                </div>
-            </div>
-        </div>`;
-};
-
-window.showHome = () => {
-    document.getElementById('home-view').classList.remove('hidden');
-    document.getElementById('detail-view').classList.add('hidden');
-};
-
-// --- CART FUNCTIONALITY ---
+// 7. CART ENGINE INTERACTION MANAGERS
 window.addToCart = (id) => {
-    const p = products.find(x => x.id === id);
     const existing = cart.find(item => item.id === id);
-
     if (existing) {
         existing.qty++;
     } else {
-        cart.push({ ...p, qty: 1 });
+        const product = products.find(p => p.id === id);
+        cart.push({ ...product, qty: 1 });
     }
-    updateUI();
-    showToast(`${p.name} ADDED TO BAG`);
+    renderCart();
+    if (!document.getElementById('cart-drawer').classList.contains('active')) {
+        window.toggleCart();
+    }
 };
 
-window.removeFromCart = (id) => {
-    cart = cart.filter(item => item.id !== id);
-    updateUI();
+window.updateQty = (id, delta) => {
+    const item = cart.find(i => i.id === id);
+    if (item) {
+        item.qty += delta;
+        if (item.qty < 1) {
+            cart = cart.filter(i => i.id !== id);
+        }
+        renderCart();
+    }
 };
 
-function updateUI() {
-    const list = document.getElementById('cart-items');
-    const totalEl = document.getElementById('cart-total');
-    const countEl = document.getElementById('bag-count');
+function renderCart() {
+    const list = document.getElementById('cart-items-list');
+    const totalDisp = document.getElementById('cart-total');
+    const countDisp = document.getElementById('cart-count');
     
-    let total = 0;
-    list.innerHTML = '';
-
-    cart.forEach(item => {
-        total += (item.price * item.qty);
-        list.innerHTML += `
-            <div class="cart-item">
-                <div class="item-info">
-                    <h4>${item.name}</h4>
-                    <p>₹${item.price} x ${item.qty}</p>
-                </div>
-                <button onclick="removeFromCart(${item.id})"><i class="fa-solid fa-trash"></i></button>
-            </div>`;
-    });
-
-    totalEl.innerText = `₹${total}`;
-    countEl.innerText = cart.reduce((a, b) => a + b.qty, 0);
-}
-
-// --- CHECKOUT ---
-window.sendToWhatsApp = async () => {
-    const user = auth.currentUser;
-    const address = document.getElementById('shipping-address').value;
-
-    if (!user || !address || cart.length === 0) {
-        alert("Please login, add items, and provide an address.");
+    if (cart.length === 0) {
+        list.innerHTML = `<p style="text-align:center;color:#666;margin-top:40px;font-size:0.85rem;letter-spacing:1px;">YOUR BAG IS EMPTY</p>`;
+        totalDisp.innerText = "₹0.00";
+        countDisp.innerText = "0";
         return;
     }
 
-    const orderID = "PR-" + Math.floor(Math.random() * 10000);
-    const orderDetails = cart.map(i => `${i.name} (${i.qty})`).join(", ");
-    const total = document.getElementById('cart-total').innerText;
+    list.innerHTML = cart.map(item => `
+        <div class="cart-item-row">
+            <div class="item-meta">
+                <span class="item-name">${item.name}</span>
+                <div class="qty-controls">
+                    <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
+                    <span>${item.qty}</span>
+                    <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
+                </div>
+            </div>
+            <span class="gold-text">₹${(item.price * item.qty).toFixed(2)}</span>
+        </div>
+    `).join('');
+    
+    const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    totalDisp.innerText = `₹${total.toFixed(2)}`;
+    countDisp.innerText = cart.reduce((sum, item) => sum + item.qty, 0);
+}
 
-    // Save to Firestore
-    await addDoc(collection(db, "orders"), {
-        orderID,
-        customer: user.displayName,
-        email: user.email,
-        items: orderDetails,
-        total,
-        address,
-        status: "Pending",
-        timestamp: serverTimestamp()
-    });
+// 8. STEPPED DRAWER CONTROLLERS
+window.nextStep = (stepNumber) => {
+    if (stepNumber === 2) {
+        if (cart.length === 0) return alert("Please add products to your bag first.");
+        if (!currentUser) return alert("Please log in to continue with your checkout.");
+    }
+    
+    if (stepNumber === 3) {
+        const addr = document.getElementById('cust-address').value.trim();
+        const city = document.getElementById('cust-city').value.trim();
+        const zip = document.getElementById('cust-zip').value.trim();
+        
+        if (!addr || !city || !zip) return alert("Please fill completely across all shipping fields.");
+        
+        // Render generated QR logic onto container viewport interface
+        const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+        const upiUrl = `upi://pay?pa=${UPI_ID}&pn=PowderRoot&am=${total}&cu=INR`;
+        const qrContainer = document.getElementById('qr-container');
+        qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(upiUrl)}" alt="Scan to Pay">`;
+    }
 
-    const msg = `*NEW ORDER: ${orderID}*%0A%0A*Name:* ${user.displayName}%0A*Items:* ${orderDetails}%0A*Total:* ${total}%0A*Address:* ${address}`;
-    window.open(`https://wa.me/917249117652?text=${msg}`, '_blank');
+    document.querySelectorAll('.cart-step').forEach(step => step.classList.add('hidden'));
+    document.getElementById(`step-${stepNumber}`).classList.remove('hidden');
 };
 
-// --- INITIAL RENDER ---
-const grid = document.getElementById('product-grid');
-if (grid) {
+// 9. WHATSAPP & SILENT EMAIL SYNC DISPATCHER
+window.checkoutViaWhatsApp = () => {
+    const addr = document.getElementById('cust-address').value.trim();
+    const city = document.getElementById('cust-city').value.trim();
+    const zip = document.getElementById('cust-zip').value.trim();
+    const fullAddress = `${addr}, ${city} - ${zip}`;
+    
+    const total = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+    const itemDetails = cart.map(i => `${i.name} (x${i.qty})`).join(", ");
+
+    // Dispatches administrative tracking record values silently
+    emailjs.send("service_cs926jb", "template_ojt95o7", {
+        customer_name: currentUser ? currentUser.displayName : "Authenticated Customer",
+        customer_email: currentUser ? currentUser.email : "N/A",
+        order_details: itemDetails,
+        total_price: `₹${total}`,
+        address: fullAddress
+    }).then(() => console.log("Order backup sent successfully."))
+      .catch(err => console.error("EmailJS background failure:", err));
+
+    // Construct format mapping for WhatsApp redirection links
+    let msg = `*NEW ORDER - POWDER ROOT*%0A`;
+    msg += `--------------------------%0A`;
+    cart.forEach(i => msg += `• ${i.name} x${i.qty} (₹${i.price * i.qty})%0A`);
+    msg += `--------------------------%0A`;
+    msg += `*TOTAL:* ₹${total}%0A%0A`;
+    msg += `*SHIPPING ADDRESS:*%0A${fullAddress}`;
+
+    window.open(`https://wa.me/${PHONE_NUMBER}?text=${msg}`, '_blank');
+};
+
+// 10. PRODUCT INITIAL CARDS GENERATOR RENDERS
+const productContainer = document.getElementById('product-container');
+if (productContainer) {
     products.forEach(p => {
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.innerHTML = `
-            <div class="card-inner">
-                <img src="${p.img}" onclick="showProduct(${p.id})">
-                <div class="card-content">
-                    <h3>${p.name}</h3>
-                    <p>₹${p.price}</p>
-                </div>
+        productContainer.innerHTML += `
+            <div class="product-card reveal">
+                <img src="${p.img}" alt="${p.name}">
+                <h3>${p.name}</h3>
+                <p class="desc">${p.desc}</p>
+                <p class="gold">₹${p.price}.00</p>
+                <button class="btn-gold-outline" onclick="addToCart(${p.id})">ADD TO BAG</button>
             </div>`;
-        grid.appendChild(card);
     });
 }
 
-function showToast(msg) {
-    const container = document.getElementById('toast-container');
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.innerText = msg;
-    container.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-}
+// Reveal Animation Framework Integration Hooks
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('active');
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(element => revealObserver.observe(element));
+// Initialize empty placeholder layout state elements explicitly
+renderCart();
